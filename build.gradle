@@ -1,0 +1,57 @@
+plugins {
+    id "org.springframework.boot" version "2.4.5"
+}
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.cxynw'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+compileJava {
+    options.release = 11
+}
+
+ext{
+    annotationsVersion = "3.0.1u2"
+    swaggerVersion = "3.0.0"
+    jsoupVersion = "1.13.1"
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation "io.springfox:springfox-boot-starter:$swaggerVersion"
+    implementation "com.google.code.findbugs:annotations:$annotationsVersion"
+    implementation("org.jsoup:jsoup:$jsoupVersion")
+
+    runtimeOnly "mysql:mysql-connector-java"
+
+    annotationProcessor "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok"
+    testCompileOnly "org.projectlombok:lombok"
+    testAnnotationProcessor "org.projectlombok:lombok"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.security:spring-security-test"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+}
+
+test {
+    useJUnitPlatform()
+}

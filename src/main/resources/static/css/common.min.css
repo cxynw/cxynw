@@ -1,0 +1,38 @@
+:root{
+    --backgroud-color: rgb(000,000,000);
+    --secondary-backgroud-color: rgb(32,32,32);
+    --text-color: rgb(180, 180, 180);
+}
+
+*{
+    color: var(--text-color);
+}
+
+.navbar-brand,.nav-link,a{
+    color: var(--text-color)!important;
+}
+
+.bg-primary{
+    background-color: var(--backgroud-color)!important;
+}
+.bg-secondary,.form-control,textarea,.list-group-item,.btn,.dropdown-menu{
+    background-color: var(--secondary-backgroud-color)!important;
+}
+
+hr{
+    border-top: 1px solid var(--text-color);
+}
+
+.form-control{
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+}
+
+.btn-primary{
+    color: var(--text-color);
+    border-color: var(--text-color);
+}
+
+.navbar{
+    box-shadow:  0rem .25rem .25rem rgb(24,24,24);
+}

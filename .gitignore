@@ -1,0 +1,12 @@
+/*
+!.gitignore
+!Readme.md
+!build.gradle
+!settings.gradle
+
+!init
+/init/my-init.sql
+
+!/src
+
+/src/main/resources/application-server.yml

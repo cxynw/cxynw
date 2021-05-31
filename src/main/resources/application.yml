@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+spring:
+  profiles:
+    active: developer
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 24MB
+      max-request-size: 24MB
+  thymeleaf:
+    cache: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+logging:
+  file:
+    name: log/cxynw.log
+
+application:
+  name: 程序员暖窝
+  keywords: 程序员暖窝,程序员,暖窝
+  description: 程序员暖窝是一个专门给程序员用的网站
+  webHost: www.cxynw.com

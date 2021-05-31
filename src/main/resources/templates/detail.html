@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ch"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title th:text="|${post.title} _${@app.name}|">我的第一篇文字 _程序员暖窝</title>
+
+  <style type="text/css">
+    img{
+      max-width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.5.0/build/styles/androidstudio.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.5.0/build/highlight.min.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/spark-md5@3.0.1/spark-md5.min.js" integrity="sha256-2A6EyCDMVYegujyKIGUgmeo/p/xDlE6BLlbUScHZ8ck=" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="/css/common.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js" integrity="sha256-KSlsysqp7TXtFo/FHjb1T9b425x3hrvzjMWaJyKbpcI=" crossorigin="anonymous"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-724C2YGH4Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-724C2YGH4Q');
+  </script>
+</head>
+
+<body class="bg-primary">
+
+<div th:replace="page::site-header"></div>
+
+<div class="container mb-5">
+  <div class="row mt-3">
+    <div class="col-12 mt-3">
+      <div class="bg-secondary p-3 rounded" id="commentVue">
+        <table style="width: 100%" class="mb-2">
+          <tr>
+            <td class="h4 p-0" th:text="${post.title}"></td>
+            <td class="text-right p-0" valign="top">
+              <img th:if="${post.publisher.avatarId != null}"
+                   th:src="@{/avatar/{avatar}(avatar=${post.publisher.avatarId})}"
+                   class="rounded" style="max-width: 3rem">
+            </td>
+          </tr>
+        </table>
+        <div>
+          by
+          <a href="#" th:text="${post.publisher.nickname}">Start Bootstrap</a>
+        </div>
+        <hr>
+        <div th:each="attachment : ${attachments}">
+          <div th:if="${attachment.fileMark.downloadPassword == null}">
+            <a th:href="@{/attachment/{sha256}_{id}.{extension}(sha256=${attachment.fileMark.sha256},id=${attachment.fileMark.fileMarkId},extension=${attachment.fileMark.extension})}"
+               th:text="|下载附件：${attachment.fileMark.fileBasename}.${attachment.fileMark.extension}|">下载附件：</a>
+          </div>
+          <div th:if="${attachment.fileMark.downloadPassword != null} ">
+          <p th:text="|设密附件：${attachment.fileMark.fileBasename}.${attachment.fileMark.extension}|"></p>
+          <div class="form-group">
+            <label for="downloadPassword">密码</label>
+            <input type="text" class="form-control-sm" id="downloadPassword">
+            <input type="button" class="btn btn-sm btn-outline-success" value="下载" onclick="download()">
+          </div>
+          <script type="text/javascript">
+            function download(){
+              var password = SparkMD5.hash(downloadPassword.value.trim());
+
+              var url = "/attachment/${attachment.fileMark.sha256}_[[@{${attachment.fileMark.fileMarkId}}]].[[@{${attachment.fileMark.extension}}]]?password="+encodeURI(password);
+
+              window.open(url);
+            }
+          </script>
+        </div>
+        </div>
+        <p th:text="|发布时间：${#dates.format(post.createTime,'yyyy-MM-dd')}">
+        </p>
+        <hr>
+        <div th:utext="${post.content}"></div>
+        <hr>
+        <p v-if="data.comments !==undefined && data.comments.length > 0">暖友：</p>
+        <ul class="list-unstyled mb-2" v-for="comment in data.comments">
+          <li class="media">
+            <img :src="comment.avatar"
+                 class="mr-2 rounded"
+                 style="width: 24px">
+            <div class="media-body">
+              <p class="text-muted m-0"
+                 style="font-size: 0.8rem"
+                 v-text="comment.nickname"></p>
+              <p class="m-0 mt-1 mb-1"
+                 v-text="comment.content"></p>
+              <p class="text-muted m-0"
+                 style="font-size: 0.8rem"
+                 v-text="'时间 • '+comment.publishDate"></p>
+            </div>
+          </li>
+          <hr class="m-0 mt-2 mb-3">
+        </ul>
+        <div class="mt-3 cell">
+          <a class="btn btn-outline-dark"
+             v-if="data.hasPrevious" @click="flush(data.previousPage)">上一页</a>
+          <a class="btn btn-outline-dark"
+             v-if="data.hasNext" @click="flush(data.nextPage)">下一页</a>
+        </div>
+        <div class="mb-3 mt-3">
+            <p>暖友:</p>
+            <textarea id="commentInput" placeholder="请输入您的暖言内容(*￣︶￣)" class="w-100" rows="3"></textarea>
+            <button type="button"
+                    id="commentInputButton"
+                    @click="publishComment"
+                    class="btn btn-outline-dark w-100"
+                    sec:authorize="hasRole('USER')">发送</button>
+            <button type="button"
+                    id="commentInputButton"
+                    @click="publishComment"
+                    class="btn btn-outline-dark w-100"
+                    disabled
+                    sec:authorize="!hasRole('USER')">你还没有登录</button>
+            <a href="/login.html" sec:authorize="!hasRole('USER')">点击这里登录</a>
+          </div>
+      </div>
+      <div class="mt-4 bg-secondary rounded">
+        <div class="p-3">
+          相关暖言
+        </div>
+        <div class="list-group">
+          <a href="#"
+             class="list-group-item list-group-item-action"
+             th:each="post : ${aboutPosts}"
+             th:href="@{/detail/{id}.html(id=${post.postId})}"
+             th:text="${post.title}">A second link item</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div th:replace="page::site-footer"></div>
+
+<script type="text/javascript">
+  new Vue({
+    el: "#commentVue",
+    data:{
+      data: {}
+    },
+    methods:{
+      flush: function(page){
+        $.ajax({
+          url: "/api/post/comment/page",
+          contentType: "application/json",
+          type: "post",
+          data: JSON.stringify({
+            postId: "[[${post.postId}]]",
+            page: page
+          }),
+          success: (data)=>{
+            this.data = data.data;
+          },
+          error: function(err){
+            alert(err.responseJSON.message);
+          }
+        })
+      },
+      publishComment: function(){
+        var comment = commentInput.value;
+        if(comment != ""){
+          commentInputButton.disabled = true;
+          $.ajax({
+            url: "/api/post/comment/publish",
+            type: "post",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+              postId: "[[${post.postId}]]",
+              comment: comment,
+              parentCommentId: null
+            }),
+            success: (data)=>{
+              this.flush(1);
+              commentInput.value = "";
+              commentInputButton.disabled = false;
+            },
+            error: function(err){
+              alert(err.responseJSON.message);
+              commentInputButton.disabled = false;
+            }
+          })
+        }
+        else {
+          alert("暖友内容不能为空");
+        }
+      }
+    },
+    created: function(){
+      this.flush(1);
+    }
+  })
+
+  hljs.initHighlightingOnLoad();
+</script>
+
+</body>
+
+</html>

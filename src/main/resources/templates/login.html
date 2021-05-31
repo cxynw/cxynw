@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title th:text="|用户登录 _${@app.name}|">用户登录 _程序员暖窝</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/spark-md5@3.0.1/spark-md5.min.js" integrity="sha256-2A6EyCDMVYegujyKIGUgmeo/p/xDlE6BLlbUScHZ8ck=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/common.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js" integrity="sha256-KSlsysqp7TXtFo/FHjb1T9b425x3hrvzjMWaJyKbpcI=" crossorigin="anonymous"></script>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-724C2YGH4Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-724C2YGH4Q');
+    </script>
+</head>
+<body class="bg-primary">
+
+<div th:replace="page::site-header"></div>
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-9 mt-3">
+            <div class="bg-secondary p-2 rounded">
+                <form onsubmit="return false" id="loginForm">
+                    <div class="form-group">
+                        <label for="inputUsername">用户名</label>
+                        <input type="text" class="form-control" v-model="username" id="inputUsername" aria-describedby="username">
+                        <small id="emailHelp" class="form-text text-muted">请输入您的用户名，用户名用于登录</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">密码</label>
+                        <input type="password"
+                               v-model="password"
+                               @keyup.enter="login" class="form-control" id="inputPassword">
+                        <small class="form-text text-muted">
+                            <a href="/register.html">还没有账户，点击我进行注册</a>
+                        </small>
+                        <small class="form-text text-muted">
+                            <a href="/retrieve/username.html">忘记用户名，点击我使用邮箱找回密码</a>
+                        </small>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" v-model="rememberMe" class="form-check-input" id="rememberMeInput">
+                        <label class="form-check-label" for="rememberMeInput">保持登录</label>
+                    </div>
+                    <button type="submit" :disabled="disabled" @click="login" class="btn btn-outline-dark w-100">登录</button>
+                    <div class="toast hide mt-3"
+                         id="loginFormToastWarning" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                        <div class="toast-header">
+                            <!--            <img src="..." class="rounded mr-2" alt="...">-->
+                            <strong class="mr-auto">程序员暖窝</strong>
+                            <small>刚刚</small>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body" v-text="toastWarning">
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        new Vue({
+                            el:"#loginForm",
+                            data:{
+                                toastWarning: "欢迎光临",
+                                nickname: "",
+                                username: "",
+                                password: "",
+                                disabled: false,
+                                rememberMe: true
+                            },
+                            methods:{
+                                checkPassword: function(){
+                                    if(this.password.trim().length < 6){
+                                        this.toastWarning = "密码不能少于6位";
+                                        $('#loginFormToastWarning').toast('show');
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                checkUsername: function(){
+                                    if(this.username.trim().length < 1){
+                                        this.toastWarning = "用户名不能少于一位"
+                                        $('#loginFormToastWarning').toast('show');
+                                        return false;
+                                    }
+                                    if(this.username.trim().length > 64){
+                                        this.toastWarning = "用户名不能超过64位";
+                                        $('#loginFormToastWarning').toast('show');
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                login: function(){
+                                    if(this.checkPassword() && this.checkUsername()){
+                                        var encryptionPassword = SparkMD5.hash(this.password.trim());
+                                        var formData = new FormData();
+                                        formData.append("username",this.username.trim());
+                                        formData.append("password",encryptionPassword);
+                                        formData.append("remember-me",this.rememberMe);
+                                        $.ajax({
+                                            url:"/login",
+                                            type: "post",
+                                            processData: false,
+                                            contentType: false,
+                                            dataType: "json",
+                                            data:formData,
+                                            success: (result)=>{
+                                                location.href = "/index.html";
+                                            },
+                                            error: (error)=>{
+                                                this.toastWarning = error.responseJSON.message;
+                                                $('#loginFormToastWarning').toast('show');
+                                                this.disabled = false;
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </form>
+            </div>
+        </div>
+        <div th:replace="page::rightMenu"></div>
+    </div>
+</div>
+
+<div th:replace="page::site-footer"></div>
+
+</body>
+</html>

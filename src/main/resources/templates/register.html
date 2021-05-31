@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ch"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title th:text="|用户注册 _${@app.name}|">用户注册 _程序员暖窝</title>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/spark-md5@3.0.1/spark-md5.min.js" integrity="sha256-2A6EyCDMVYegujyKIGUgmeo/p/xDlE6BLlbUScHZ8ck=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/common.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js" integrity="sha256-KSlsysqp7TXtFo/FHjb1T9b425x3hrvzjMWaJyKbpcI=" crossorigin="anonymous"></script>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-724C2YGH4Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-724C2YGH4Q');
+    </script>
+</head>
+<body class="bg-primary">
+
+<div th:replace="page::site-header"></div>
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-9 mt-3">
+            <div class="bg-secondary p-2 rounded">
+                <form onsubmit="return false" id="registerForm">
+                    <div class="form-group">
+                        <label for="inputNickname">昵称</label>
+                        <input type="text"
+                               class="form-control"
+                               id="inputNickname"
+                               v-model="nickname"
+                               aria-describedby="nickname">
+                        <small class="form-text text-muted">
+                            请输入您的昵称，昵称用于显示
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUsername">用户名</label>
+                        <input type="text"
+                               v-model="username"
+                               class="form-control"
+                               id="inputUsername"
+                               aria-describedby="username">
+                        <small class="form-text text-muted">
+                            请输入您的用户名，用户名用于登录
+                        </small>
+                    </div>
+                    <div content="form-group">
+                        <label for="inputEmail">邮箱</label>
+                        <input type="text"
+                        class="form-control"
+                        id="inputEmail"
+                        v-model="email"
+                        aria-describedby="email">
+                        <small class="form-text text-muted">
+                            请输入您的邮箱，邮箱用于找回密码
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">密码</label>
+                        <input type="password"
+                               class="form-control"
+                               id="inputPassword"
+                               v-model="password"
+                               @keyup.enter="register"
+                               aria-describedby="username">
+                        <small class="form-text text-muted">
+                            <a href="/login.html">已经有账户，点击我进行登录</a>
+                        </small>
+                    </div>
+                    <button type="submit"
+                            @click="register"
+                            :disabled="disabled"
+                            class="btn btn-outline-dark w-100">注册</button>
+                    <div class="toast hide mt-3" id="registerFormToastWarning" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                        <div class="toast-header">
+                            <!--            <img src="..." class="rounded mr-2" alt="...">-->
+                            <strong class="mr-auto">程序员暖窝</strong>
+                            <small>刚刚</small>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body" v-text="toastWarning">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                new Vue({
+                    el:"#registerForm",
+                    data:{
+                        toastWarning: "欢迎光临",
+                        nickname: "",
+                        username: "",
+                        password: "",
+                        email: "",
+                        disabled: false
+                    },
+                    methods:{
+                        checkPassword: function(){
+                            if(this.password.trim().length < 6){
+                                this.toastWarning = "密码不能少于6位";
+                                $('#registerFormToastWarning').toast('show');
+                                return false;
+                            }
+                            return true;
+                        },
+                        checkNickName: function(){
+                            if(this.nickname.trim().length < 1){
+                                this.toastWarning = "昵称不能少于一位";
+                                $('#registerFormToastWarning').toast('show');
+                                return false;
+                            }
+                            if(this.nickname.trim().length > 64){
+                                this.toastWarning = "昵称不能超过64位"
+                                $('#registerFormToastWarning').toast('show');
+                                return false;
+                            }
+                            return true;
+                        },
+                        checkUsername: function(){
+                            if(this.username.trim().length < 1){
+                                this.toastWarning = "用户名不能少于一位"
+                                $('#registerFormToastWarning').toast('show');
+                                return false;
+                            }
+                            if(this.username.trim().length > 64){
+                                this.toastWarning = "用户名不能超过64位";
+                                $('#registerFormToastWarning').toast('show');
+                                return false;
+                            }
+                            return true;
+                        },
+                        register: function(){
+                            if(this.checkNickName() && this.checkPassword() && this.checkUsername()){
+                                var encryptionPassword = SparkMD5.hash(this.password.trim());
+                                $.ajax({
+                                    url:"/register",
+                                    type: "post",
+                                    contentType: "application/json;charset=utf-8",
+                                    data:JSON.stringify({
+                                        password: encryptionPassword,
+                                        nickname: this.nickname.trim(),
+                                        username: this.username.trim(),
+                                        email: this.email.trim()
+                                    }),
+                                    success: (result)=>{
+                                        location.href = "/index.html";
+                                    },
+                                    error: (error)=>{
+                                        this.toastWarning = error.responseJSON.message;
+                                        $('#registerFormToastWarning').toast('show');
+                                        this.disabled = false;
+                                    }
+                                })
+                            }
+                        }
+                    }
+                });
+
+            </script>
+        </div>
+        <div th:replace="page::rightMenu"></div>
+    </div>
+</div>
+
+
+<div th:replace="page::site-footer"></div>
+
+</body>
+</html>
