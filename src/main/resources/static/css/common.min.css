@@ -1,7 +1,8 @@
 :root{
-    --backgroud-color: rgb(000,000,000);
+    --backgroud-color: black;
     --secondary-backgroud-color: rgb(32,32,32);
-    --text-color: rgb(180, 180, 180);
+    --text-color: white;
+    --text-muted-color: #6c757d;
 }
 
 *{
@@ -20,7 +21,7 @@
 }
 
 hr{
-    border-top: 1px solid var(--text-color);
+    border-top: 1px solid var(--text-muted-color);
 }
 
 .form-control{
@@ -35,4 +36,10 @@ hr{
 
 .navbar{
     box-shadow:  0rem .25rem .25rem rgb(24,24,24);
+}
+
+
+/*tinyMCE theme*/
+.tox-form .tox-textarea{
+    color: var(--text-color)!important;
 }

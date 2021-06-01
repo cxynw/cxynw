@@ -78,14 +78,14 @@
                                v-model="password"
                                @keyup.enter="register"
                                aria-describedby="username">
-                        <small class="form-text text-muted">
-                            <a href="/login.html">已经有账户，点击我进行登录</a>
+                        <small class="form-text">
+                            <a href="/login.html" class="text-muted">已经有账户，点击我进行登录</a>
                         </small>
                     </div>
                     <button type="submit"
                             @click="register"
                             :disabled="disabled"
-                            class="btn btn-outline-dark w-100">注册</button>
+                            class="btn btn-primary w-100">注册</button>
                     <div class="toast hide mt-3" id="registerFormToastWarning" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
                         <div class="toast-header">
                             <!--            <img src="..." class="rounded mr-2" alt="...">-->

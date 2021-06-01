@@ -6,7 +6,7 @@ apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
 group 'com.cxynw'
-version '0.0.1'
+version '0.0.2'
 
 repositories {
     mavenCentral()

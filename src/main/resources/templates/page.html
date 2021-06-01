@@ -119,8 +119,8 @@
     <div class="row">
         <div class="col-md-9 mt-3">
             <div class="bg-secondary p-2 rounded">
-                <div class="mb-3" th:fragment="postGroupItemView">
-                    <a href="/index.html" class="btn btn-outline-secondary">
+                <div class="mb-2 pb-2" th:fragment="postGroupItemView" style="white-space: nowrap; overflow-x: scroll">
+                    <a href="/index.html" class="btn btn-outline-secondary" style="display: inline-block">
                         <span>全部</span>
                     </a>
                     <a th:each="group: ${groups}"
