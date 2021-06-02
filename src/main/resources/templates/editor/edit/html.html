@@ -117,9 +117,10 @@
     tinymce.init({
         selector:'#content',
         language:'zh_CN',
+        convert_urls: false,
         language_url: 'https://cdn.jsdelivr.net/npm/tinymce-i18n@20.12.25/langs5/zh_CN.js',
-        plugins: 'image code lists advlist autolink autoresize autosave codesample fullscreen hr imagetools insertdatetime link preview save searchreplace table wordcount',
-        toolbar: 'image codesample table link bullist  preview fullscreen save hr numlist insertdatetime restoredraft',
+        plugins: 'image code lists advlist autolink autoresize autosave codesample fullscreen hr imagetools insertdatetime link preview save searchreplace table wordcount textcolor',
+        toolbar: 'forecolor backcolor image link codesample table  bullist fullscreen numlist restoredraft code',
         autosave_retention: "1440m",
         autosave_ask_before_unload: false,
         min_height: 420,
