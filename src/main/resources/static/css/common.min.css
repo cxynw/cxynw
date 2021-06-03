@@ -20,7 +20,7 @@
     background-color: var(--secondary-backgroud-color)!important;
 }
 
-hr{
+hr,.table th,.table td{
     border-top: 1px solid var(--text-muted-color);
 }
 
@@ -33,11 +33,17 @@ hr{
     color: var(--text-color);
     border-color: var(--text-color);
 }
+.btn-primary.disabled, .btn-primary:disabled{
+    border-color: var(--text-muted-color);
+}
 
 .navbar{
     box-shadow:  0rem .25rem .25rem rgb(24,24,24);
 }
 
+.text-reset{
+    word-break: break-word;
+}
 
 /*tinyMCE theme*/
 .tox-form .tox-textarea{

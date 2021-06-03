@@ -70,7 +70,7 @@
           <div class="form-group">
             <label for="downloadPassword">密码</label>
             <input type="text" class="form-control-sm" id="downloadPassword">
-            <input type="button" class="btn btn-sm btn-outline-success" value="下载" onclick="download()">
+            <input type="button" class="btn btn-sm btn-primary" value="下载" onclick="download()">
           </div>
           <script type="text/javascript">
             function download(){
@@ -108,9 +108,9 @@
           <hr class="m-0 mt-2 mb-3">
         </ul>
         <div class="mt-3 cell">
-          <a class="btn btn-outline-dark"
+          <a class="btn btn-primary"
              v-if="data.hasPrevious" @click="flush(data.previousPage)">上一页</a>
-          <a class="btn btn-outline-dark"
+          <a class="btn btn-primary"
              v-if="data.hasNext" @click="flush(data.nextPage)">下一页</a>
         </div>
         <div class="mb-3 mt-3">
@@ -119,12 +119,12 @@
             <button type="button"
                     id="commentInputButton"
                     @click="publishComment"
-                    class="btn btn-outline-dark w-100"
+                    class="btn btn-primary w-100"
                     sec:authorize="hasRole('USER')">发送</button>
             <button type="button"
                     id="commentInputButton"
                     @click="publishComment"
-                    class="btn btn-outline-dark w-100"
+                    class="btn btn-primary w-100"
                     disabled
                     sec:authorize="!hasRole('USER')">你还没有登录</button>
             <a href="/login.html" sec:authorize="!hasRole('USER')">点击这里登录</a>
