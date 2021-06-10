@@ -1,12 +1,54 @@
 :root{
-    --backgroud-color: black;
-    --secondary-backgroud-color: rgb(32,32,32);
-    --text-color: white;
-    --text-muted-color: #6c757d;
+    --backgroud-color: rgb(253, 230, 224);
+    --secondary-backgroud-color: #ffffff;
+    --footer-backgroud-color: #232323;
+
+    --text-color: #2c2c2c;
+    --text-muted-color: #999;
+    --text-footer-color: #979b9e;
+    --text-shadow: #FFB3CC;
+    --text-font: 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial',sans-serif;
 }
 
-*{
+/*tool css*/
+.text-reset{
+    word-break: break-word;
     color: var(--text-color);
+    font-family: var(--text-font);
+}
+
+.navbar-dark .navbar-toggler{
+    border-color: var(--text-shadow);
+    padding: 0px;
+    width: 4rem;
+}
+
+.navbar-toggler-icon{
+    display: inline-block;
+    width: auto;
+    height: auto;
+    vertical-align: baseline;
+    padding: 0.5rem 0rem;
+}
+.navbar-toggler-icon::after{
+    content: '收纳';
+    color: var(--text-color);
+    font-family: var(--text-font);
+    text-align: center;
+}
+
+body{
+    font-family: var(--text-font);
+    color: var(--text-color);
+}
+
+#page-navbar{
+    text-shadow: 4px 0 12px var(--text-shadow);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+}
+#page-footer{
+    background-color: var(--footer-backgroud-color);
+    color: var(--text-footer-color);
 }
 
 .navbar-brand,.nav-link,a{
@@ -33,16 +75,13 @@ hr,.table th,.table td{
     color: var(--text-color);
     border-color: var(--text-color);
 }
-.btn-primary.disabled, .btn-primary:disabled{
+.btn-primary:disabled,.btn-primary:focus{
     border-color: var(--text-muted-color);
+    color: var(--text-muted-color);
 }
 
 .navbar{
-    box-shadow:  0rem .25rem .25rem rgb(24,24,24);
-}
-
-.text-reset{
-    word-break: break-word;
+    /*box-shadow:  0rem .25rem .25rem rgb(24,24,24);*/
 }
 
 /*tinyMCE theme*/

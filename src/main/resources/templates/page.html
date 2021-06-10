@@ -28,91 +28,92 @@
     </script>
 </head>
 <body class="bg-primary">
-<nav th:fragment="site-header" class="navbar navbar-dark bg-secondary sticky-top navbar-expand-lg">
-    <a class="navbar-brand" th:href="@{/index.html}" th:text="${@app.name}">程序员暖窝</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav th:fragment="site-header" id="page-navbar" class="navbar navbar-dark bg-secondary sticky-top navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/index.html}" th:text="${@app.name}">程序员暖窝</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/index.html">首页
-                    <!--                    <span class="sr-only">(current)</span>-->
-                </a>
-            </li>
-            <li class="nav-item"
-                sec:authorize="!isAuthenticated()">
-                <a class="nav-link" href="/login.html">登录</a>
-            </li>
-            <li class="nav-item"
-                sec:authorize="!isAuthenticated()">
-                <a class="nav-link" href="/register.html">注册</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    更多
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item"
-                       sec:authorize="hasRole('USER')"
-                       href="/web/user/profile.html">个人中心</a>
-                    <a class="dropdown-item"
-                       sec:authorize="hasRole('ADMIN')"
-                       href="/admin_center/index.html">系统后台</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item"
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/index.html">首页
+                        <!--                    <span class="sr-only">(current)</span>-->
+                    </a>
+                </li>
+                <li class="nav-item"
+                    sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/login.html">登录</a>
+                </li>
+                <li class="nav-item"
+                    sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/register.html">注册</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        更多
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"
+                           sec:authorize="hasRole('USER')"
+                           href="/web/user/profile.html">个人中心</a>
+                        <a class="dropdown-item"
+                           sec:authorize="hasRole('ADMIN')"
+                           href="/admin_center/index.html">系统后台</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           sec:authorize="isAuthenticated()"
+                           href="/logout.html">退出登录</a>
+                        <a class="dropdown-item"
+                           sec:authorize="!isAuthenticated()"
+                           href="#">关于我们</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
                        sec:authorize="isAuthenticated()"
-                       href="/logout.html">退出登录</a>
-                    <a class="dropdown-item"
-                       sec:authorize="!isAuthenticated()"
-                       href="#">关于我们</a>
+                       href="/logout.html" tabindex="-1" aria-disabled="true">退出</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" onsubmit="return false">
+                <input class="form-control mr-sm-2" type="search"
+                       placeholder="请输入关键字 空格隔开" v-model="keywords" @key.enter="search" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit" @click="search">检索</button>
+            </form>
+            <div class="toast hide" id="keywordsSearchToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                <div class="toast-header">
+                    <!--            <img src="..." class="rounded mr-2" alt="...">-->
+                    <strong class="mr-auto" th:text="@{app.name}">程序员暖窝</strong>
+                    <small>刚刚</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"
-                   sec:authorize="isAuthenticated()"
-                   href="/logout.html" tabindex="-1" aria-disabled="true">退出</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" onsubmit="return false">
-            <input class="form-control mr-sm-2" type="search"
-                   placeholder="请输入关键字 空格隔开" v-model="keywords" @key.enter="search" aria-label="Search">
-            <button class="btn btn-primary my-2 my-sm-0" type="submit" @click="search">检索</button>
-        </form>
-        <div class="toast hide" id="keywordsSearchToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-            <div class="toast-header">
-                <!--            <img src="..." class="rounded mr-2" alt="...">-->
-                <strong class="mr-auto" th:text="@{app.name}">程序员暖窝</strong>
-                <small>刚刚</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                您好，请输入关键词后，再检索
+                <div class="toast-body">
+                    您好，请输入关键词后，再检索
+                </div>
             </div>
         </div>
-    </div>
-
-    <script type="text/javascript">
-        new Vue({
-            el: "#navbarSupportedContent",
-            data:{
-                keywords: ""
-            },
-            methods:{
-                search: function(){
-                    var value = this.keywords.trim();
-                    if(value.length >= 1){
-                        location.href = "/search/"+encodeURI(value)+"/1.html";
-                    }else{
-                        $('#keywordsSearchToast').toast('show');
+        <script type="text/javascript">
+            new Vue({
+                el: "#navbarSupportedContent",
+                data:{
+                    keywords: ""
+                },
+                methods:{
+                    search: function(){
+                        var value = this.keywords.trim();
+                        if(value.length >= 1){
+                            location.href = "/search/"+encodeURI(value)+"/1.html";
+                        }else{
+                            $('#keywordsSearchToast').toast('show');
+                        }
                     }
                 }
-            }
-        })
-    </script>
+            })
+        </script>
+    </div>
 </nav>
 
 <div class="container mb-5">
@@ -259,7 +260,7 @@
     </div>
 </div>
 
-<div th:fragment="site-footer" class="bg-secondary text-center pt-4 pb-4" th:text="'Copyright ©'+${@app.name}+' 2021-2025'"></div>
+<div th:fragment="site-footer" id="page-footer" class="text-center pt-4 pb-4" th:text="'Copyright ©'+${@app.name}+' 2021-2025'"></div>
 
 </body>
 </html>

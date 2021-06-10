@@ -31,7 +31,7 @@
 
 <div class="container mb-5">
     <div class="row">
-        <div class="col-md-9 mt-3">
+        <div class="col-12 mt-3">
             <table class="table bg-secondary p-2 rounded" id="vue">
                 <tbody>
                 <tr>
@@ -126,14 +126,15 @@
                 </tr>
                 </tbody>
             </table>
-
+        </div>
+        <div class="col-12 mt-3">
             <table class="table bg-secondary mt-3 rounded">
                 <tbody th:each="post,s: ${posts}">
                 <tr>
                     <th rowspan="2"
                         scope="row"
                         th:text="${s.index+1}">1</th>
-                    <td colspan="2" th:text="${post.title}">Mark</td>
+                    <td colspan="2" th:text="${post.title}" class="text-reset">Mark</td>
                 </tr>
                 <tr>
                     <td>
@@ -149,9 +150,7 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
-        <div th:replace="page::rightMenu"></div>
     </div>
 </div>
 
