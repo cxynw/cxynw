@@ -3,6 +3,9 @@ package com.cxynw.utils;
 import com.cxynw.model.does.*;
 import com.cxynw.model.vo.PostGroupVO;
 import com.cxynw.model.vo.PostVO;
+import com.cxynw.repository.PostCommentRepository;
+import com.cxynw.service.PostCommentService;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 
 import java.math.BigInteger;
@@ -22,13 +25,17 @@ public class EntityUtils {
         }).collect(Collectors.toList());
     }
 
-    public static Page<PostVO> convertToPagePostVO(Page<Post> page, Optional<User> currentUser){
+    public static Page<PostVO> convertToPagePostVO(Page<Post> page,
+                                                   Optional<User> currentUser,
+                                                   PostCommentService postCommentService){
         return page.map((item)->{
             boolean isMe = false;
             if(currentUser.isPresent()){
                 isMe = item.getPublisher().getUserId() == currentUser.get().getUserId();
             }
-            PostVO vo = new PostVO(item,isMe);
+
+            Long numberOfComments = postCommentService.countByPost(item);
+            PostVO vo = new PostVO(item,isMe,numberOfComments);
             return vo;
         });
     }

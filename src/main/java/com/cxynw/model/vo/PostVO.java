@@ -14,8 +14,30 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public class PostVO {
 
-    public PostVO(Post post,boolean isMe) throws LazyInitializationException {
+    private String[] groupName;
+    private String likes;
+    private String visits;
+    private String postId;
+    private String title;
+    private String content;
+    private String nickname;
+    private String avatar;
+    private Boolean hasPassword;
+    private Boolean canEdit;
+    private Boolean disallowComment;
+    private Boolean isMe;
+
+    // 评论数
+    private Long numberOfComments;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date editTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
+
+    public PostVO(Post post,boolean isMe,Long numberOfComments) throws LazyInitializationException {
         this.isMe = isMe;
+        this.numberOfComments = numberOfComments;
 
         Stream<String> stringStream = post.getPostGroups().stream().map((item -> item.getGroupName()));
         this.groupName = stringStream.toArray(String[]::new);
@@ -40,22 +62,4 @@ public class PostVO {
         this.editTime = post.getEditTime();
         this.createTime = post.getCreateTime();
     }
-
-    private String[] groupName;
-    private String likes;
-    private String visits;
-    private String postId;
-    private String title;
-    private String content;
-    private String nickname;
-    private String avatar;
-    private Boolean hasPassword;
-    private Boolean canEdit;
-    private Boolean disallowComment;
-    private Boolean isMe;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date editTime;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createTime;
 }

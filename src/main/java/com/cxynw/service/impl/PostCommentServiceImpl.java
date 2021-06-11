@@ -117,4 +117,9 @@ implements PostCommentService {
         return vo;
     }
 
+    @Override
+    public Long countByPost(Post post) {
+        return repository.countByPost(post);
+    }
+
 }

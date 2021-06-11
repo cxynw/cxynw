@@ -12,4 +12,11 @@ public interface PostCommentRepository extends BaseRepository<PostComment, BigIn
 
     Page<PostComment> findAllByPost(Post post, Pageable pageable);
 
+    /**
+     *
+     * @param post
+     * @return number of comments
+     */
+    Long countByPost(Post post);
+
 }

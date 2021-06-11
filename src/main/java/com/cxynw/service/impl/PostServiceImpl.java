@@ -14,6 +14,7 @@ import com.cxynw.repository.FileMarkRepository;
 import com.cxynw.repository.PostRepository;
 import com.cxynw.service.AccountService;
 import com.cxynw.service.FileService;
+import com.cxynw.service.PostCommentService;
 import com.cxynw.service.PostService;
 import com.cxynw.utils.DateUtils;
 import com.cxynw.utils.EntityUtils;
@@ -38,6 +39,7 @@ import java.util.stream.Stream;
 public class PostServiceImpl implements PostService {
 
     private final PostAttachmentCacheDao attachmentCacheDao;
+    private final PostCommentService postCommentService;
 
     @Override
     public Optional<Post> findById(BigInteger id) {
@@ -199,7 +201,7 @@ public class PostServiceImpl implements PostService {
         }, pageRequest);
 
         Optional<User> account = accountService.getCurrentAccount();
-        return EntityUtils.convertToPagePostVO(page,account);
+        return EntityUtils.convertToPagePostVO(page,account,postCommentService);
     }
 
     @Override
@@ -215,11 +217,12 @@ public class PostServiceImpl implements PostService {
     private final FileMarkRepository fileMarkRepository;
     private final PostDao postDao;
 
-    public PostServiceImpl(PostAttachmentCacheDao attachmentCacheDao, PostRepository repository,
+    public PostServiceImpl(PostAttachmentCacheDao attachmentCacheDao, PostCommentService postCommentService, PostRepository repository,
                            AccountService accountService,
                            FileService fileService, FileMarkRepository fileMarkRepository,
                            PostDao postDao) {
         this.attachmentCacheDao = attachmentCacheDao;
+        this.postCommentService = postCommentService;
 
         this.repository = repository;
         this.accountService = accountService;

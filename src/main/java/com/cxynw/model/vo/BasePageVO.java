@@ -1,14 +1,11 @@
 package com.cxynw.model.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
-@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper=true)
 public class BasePageVO<T> extends BaseVO<T>{
 
     private int nextPage;

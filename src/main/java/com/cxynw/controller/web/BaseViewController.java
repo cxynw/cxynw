@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
@@ -40,17 +39,22 @@ public class BaseViewController {
     private final AccountService accountService;
     private final PostAttachmentService attachmentService;
     private final FileMarkCacheDao fileMarkCacheDao;
+    private final PostCommentService postCommentService;
 
     public BaseViewController(PostService postService,
                               PostGroupService postGroupService,
                               UserService userService,
-                              AccountService accountService, PostAttachmentService attachmentService, FileMarkCacheDao fileMarkCacheDao) {
+                              AccountService accountService,
+                              PostAttachmentService attachmentService,
+                              FileMarkCacheDao fileMarkCacheDao,
+                              PostCommentService postCommentService) {
         this.postService = postService;
         this.postGroupService = postGroupService;
         this.userService = userService;
         this.accountService = accountService;
         this.attachmentService = attachmentService;
         this.fileMarkCacheDao = fileMarkCacheDao;
+        this.postCommentService = postCommentService;
     }
 
     @GetMapping(value = {"/index.html"})
@@ -75,7 +79,7 @@ public class BaseViewController {
         Page<Post> posts = postService.page(PageRequest.of(page-1,12, Sort.Direction.DESC,"updateTime"));
         Page<PostGroup> groups = postGroupService.page(PageRequest.of(0, 24, Sort.Direction.DESC, "updateTime"));
         Optional<User> account = accountService.getCurrentAccount();
-        model.addAttribute("posts", EntityUtils.convertToPagePostVO(posts,account));
+        model.addAttribute("posts", EntityUtils.convertToPagePostVO(posts,account,postCommentService));
         model.addAttribute("groups",groups);
 
         return "page";
@@ -97,9 +101,9 @@ public class BaseViewController {
         PostGroup group = id.orElseThrow(() -> new Throwable("该贴吧没有找到"));
 
         Page<Post> posts = postService.pageByGroup(PageRequest.of(page-1,12, Sort.Direction.DESC,"updateTime"),group);
-        Page<PostGroup> groups = postGroupService.page(PageRequest.of(0, 24, Sort.Direction.DESC, "createTime"));
+        Page<PostGroup> groups = postGroupService.page(PageRequest.of(0, 24, Sort.Direction.DESC, "updateTime"));
         Optional<User> account = accountService.getCurrentAccount();
-        model.addAttribute("posts",EntityUtils.convertToPagePostVO(posts,account));
+        model.addAttribute("posts",EntityUtils.convertToPagePostVO(posts,account,postCommentService));
         model.addAttribute("groups",groups);
         model.addAttribute("currentGroup",group);
         return "group";

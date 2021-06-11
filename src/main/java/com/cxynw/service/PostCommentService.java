@@ -21,4 +21,6 @@ public interface PostCommentService extends BaseService<PostComment,BigInteger> 
 
     PostCommentVO pageByPostIdWithVO(BigInteger id,Pageable pageable);
 
+    Long countByPost(Post post);
+
 }

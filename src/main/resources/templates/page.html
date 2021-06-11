@@ -11,7 +11,6 @@
     <meta charset="UTF-8">
 
 
-    <script src="https://cdn.jsdelivr.net/npm/spark-md5@3.0.1/spark-md5.min.js" integrity="sha256-2A6EyCDMVYegujyKIGUgmeo/p/xDlE6BLlbUScHZ8ck=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/css/common.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -166,7 +165,8 @@
                         </div>
                         <p style="font-size: 0.8rem"
                            class="text-muted font-weight-light align-self-center pl-1 pr-2 rounded-pill"
-                           th:text="${post.visits}"></p>
+                           th:if="${post.numberOfComments > 0}"
+                           th:text="${post.numberOfComments}"></p>
                     </li>
                     <hr class="m-0 mt-2 mb-3">
                 </ul>
