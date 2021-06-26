@@ -47,11 +47,11 @@
 
                 <div class="mt-3">
                     <a class="btn btn-outline-secondary"
-                       th:href="@{/group/{groupId}_{page}.html(page=${posts.getNumber()},groupId=${currentGroup.postGroupId})}"
-                       th:if="${posts.hasPrevious()}">上一页</a>
+                       th:href="@{/group/{groupId}_{page}.html(page=${postItemVo.previousPage},groupId=${currentGroup.postGroupId})}"
+                       th:if="${postItemVo.hasPrevious}">上一页</a>
                     <a class="btn btn-outline-secondary"
-                       th:href="@{/group/{groupId}_{page}.html(page=${posts.getNumber()+2},groupId=${currentGroup.postGroupId})}"
-                       th:if="${posts.hasNext()}">下一页</a>
+                       th:href="@{/group/{groupId}_{page}.html(page=${postItemVo.nextPage},groupId=${currentGroup.postGroupId})}"
+                       th:if="${postItemVo.hasNext}">下一页</a>
                 </div>
             </div>
         </div>

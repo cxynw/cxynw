@@ -56,6 +56,14 @@
                 <hr class="mb-2 mt-2">
                 <div class="mt-1">内容</div>
                 <div id="content" th:utext="${post.content}" class="mt-1"></div>
+                <div class="mt-1" th:if="${post.postType == 1}">
+                    公开 <input type="radio" checked id="postTypePublic" value="1" name="postType">
+                    私密 <input type="radio" value="2" name="postType">
+                </div>
+                <div class="mt-1" th:if="${post.postType == 2}">
+                    公开 <input type="radio" id="postTypePublic" value="1" name="postType">
+                    私密 <input type="radio" checked value="2" name="postType">
+                </div>
                 <button class="btn w-100 btn-primary" @click="publish" id="editButton" v-text="buttonText">编辑</button>
             </div>
         </div>
@@ -82,7 +90,11 @@
                 }
                 formData.append("title",title);
                 formData.append("content",content);
-                formData.append("postType","1");
+                if(document.getElementById("postTypePublic").checked) {
+                    formData.append("postType", "1");
+                }else{
+                    formData.append("postType", "2");
+                }
                 formData.append("postId",this.postId);
                 formData.append("groupId","[[${groupId}]]");
                 if(this.attachmentPassword.trim()){

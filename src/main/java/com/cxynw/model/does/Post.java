@@ -52,6 +52,9 @@ public class Post extends BaseEntity{
     private String content;
     @Column(name = "post_type",nullable = false,
             columnDefinition = "int comment '贴子类型'")
+    /**
+     * @see com.cxynw.model.enums.PostTypeEnum
+     */
     private Integer postType;
     @Column(name = "post_status",nullable = false,
             columnDefinition = "int comment '贴子的状态'")

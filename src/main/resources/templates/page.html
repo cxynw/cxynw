@@ -132,33 +132,27 @@
                 </div>
                 <hr>
 
-                <ul class="list-unstyled" th:fragment="postItemView" th:each="post : ${posts}">
+                <ul class="list-unstyled" th:fragment="postItemView" th:each="item : ${postItemVo.items}">
                     <li class="media">
-                        <img th:if="${post.avatar == null}"
-                             th:src="@{/avatar/generate/{nickname}(nickname=${post.nickname})}"
-                             src="..." class="mr-2 rounded"
+                        <img th:src="${item.userAvatarSrc}"
+                             class="mr-2 rounded"
                              style="width: 24px"
-                             th:alt="${post.nickname}">
-                        <img th:if="${post.avatar != null}"
-                             th:src="@{/avatar/{avatar}(avatar=${post.avatar})}"
-                             src="..." class="mr-2 rounded"
-                             style="width: 24px"
-                             th:alt="${post.nickname}">
+                             th:alt="${item.userNickname}">
                         <div class="media-body">
                             <p class="text-muted m-0"
                                style="font-size: 0.8rem"
-                               th:text="|作者&nbsp;•&nbsp;${post.nickname}|"></p>
+                               th:text="|作者&nbsp;•&nbsp;${item.userNickname}|"></p>
                             <p class="m-0 mt-1 mb-1">
                                 <a class="text-reset"
-                                   th:href="@{/detail/{id}.html(id=${post.postId})}"
-                                   th:text="${post.title}"></a>
+                                   th:href="${item.postDetailSrc}"
+                                   th:text="${item.postTitle}"></a>
                             </p>
                             <div>
                                 <span class="text-muted m-0"
                                       style="font-size: 0.8rem"
-                                      th:text="|发布时间&nbsp;•&nbsp;${#dates.format(post.createTime,'yyyy-MM-dd')}|"></span>
-                                <a th:if="${post.isMe}"
-                                   th:href="@{/editor/edit/{id}.html(id=${post.postId})}"
+                                      th:text="'发布时间 • '+${#dates.format(item.postCreateTime,'yyyy-MM-dd')}"></span>
+                                <a th:if="${item.isOwner}"
+                                   th:href="${item.postEditSrc}"
                                    target="_blank"
                                    style="font-size: 0.8rem"
                                    href="#" class="text-muted m-0">编辑</a>
@@ -166,16 +160,16 @@
                         </div>
                         <p style="font-size: 0.8rem"
                            class="text-muted font-weight-light align-self-center pl-1 pr-2 rounded-pill"
-                           th:text="${post.visits}"></p>
+                           th:text="${item.postVisits}"></p>
                     </li>
                     <hr class="m-0 mt-2 mb-3">
                 </ul>
 
                 <div class="mt-3">
-                    <a class="btn btn-outline-secondary" th:href="@{/page/{page}.html(page=${posts.getNumber()})}"
-                       th:if="${posts.hasPrevious()}">上一页</a>
-                    <a class="btn btn-outline-secondary" th:href="@{/page/{page}.html(page=${posts.getNumber()+2})}"
-                       th:if="${posts.hasNext()}">下一页</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/page/{page}.html(page=${postItemVo.previousPage})}"
+                       th:if="${postItemVo.hasPrevious}">上一页</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/page/{page}.html(page=${postItemVo.nextPage})}"
+                       th:if="${postItemVo.hasNext}">下一页</a>
                 </div>
             </div>
         </div>

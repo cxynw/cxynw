@@ -2,7 +2,9 @@ package com.cxynw.controller.web;
 
 import com.cxynw.manager.FileMarkCacheDao;
 import com.cxynw.model.does.*;
+import com.cxynw.model.enums.PostTypeEnum;
 import com.cxynw.model.vo.PostAttachmentVO;
+import com.cxynw.model.vo.PostItemVo;
 import com.cxynw.service.*;
 import com.cxynw.utils.EntityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -72,10 +74,9 @@ public class BaseViewController {
             page = 1;
         }
 
-        Page<Post> posts = postService.page(PageRequest.of(page-1,12, Sort.Direction.DESC,"updateTime"));
         Page<PostGroup> groups = postGroupService.page(PageRequest.of(0, 24, Sort.Direction.DESC, "updateTime"));
-        Optional<User> account = accountService.getCurrentAccount();
-        model.addAttribute("posts", EntityUtils.convertToPagePostVO(posts,account));
+        PostItemVo postItemVo = postService.pagePostItemVo(PostTypeEnum.PUBLIC_ARTICLE,null,PageRequest.of(page - 1, 12, Sort.Direction.DESC, "updateTime"));
+        model.addAttribute("postItemVo", postItemVo);
         model.addAttribute("groups",groups);
 
         return "page";
@@ -96,10 +97,10 @@ public class BaseViewController {
         Optional<PostGroup> id = postGroupService.findById(groupId);
         PostGroup group = id.orElseThrow(() -> new Throwable("该贴吧没有找到"));
 
-        Page<Post> posts = postService.pageByGroup(PageRequest.of(page-1,12, Sort.Direction.DESC,"updateTime"),group);
         Page<PostGroup> groups = postGroupService.page(PageRequest.of(0, 24, Sort.Direction.DESC, "createTime"));
-        Optional<User> account = accountService.getCurrentAccount();
-        model.addAttribute("posts",EntityUtils.convertToPagePostVO(posts,account));
+
+        PostItemVo postItemVo = postService.pagePostItemVo(PostTypeEnum.PUBLIC_ARTICLE,group,PageRequest.of(page - 1, 12, Sort.Direction.DESC, "updateTime"));
+        model.addAttribute("postItemVo", postItemVo);
         model.addAttribute("groups",groups);
         model.addAttribute("currentGroup",group);
         return "group";
@@ -118,6 +119,14 @@ public class BaseViewController {
 
         Optional<Post> optional = postService.findById(id);
         Post post = optional.orElseThrow(() -> new RuntimeException("没有找到该文章"));
+        if(post.getPostType() != PostTypeEnum.PUBLIC_ARTICLE.getValue()){
+            Optional<User> currentAccount = accountService.getCurrentAccount();
+            User user = currentAccount.orElseThrow(() -> new RuntimeException("没有找到该文章"));
+            if(post.getPublisher().getUserId().equals(user.getUserId())==false){
+                throw new RuntimeException("没有找到该文章");
+            }
+        }
+
         Hibernate.initialize(post.getPublisher().getActors());
         postService.addVisitsById(post.getPostId());
 

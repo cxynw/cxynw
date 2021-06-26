@@ -1,5 +1,7 @@
 package com.cxynw.controller.web.search;
 
+import com.cxynw.model.enums.PostTypeEnum;
+import com.cxynw.model.vo.PostItemVo;
 import com.cxynw.model.vo.PostVO;
 import com.cxynw.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +39,13 @@ public class SearchViewController {
         if(page < 1){
             usePage = 1;
         }
-        Page<PostVO> postVOPage = postService.searchByKeywords(
+        PostItemVo postItemVo = postService.searchByKeywords(
                 useKeywords,
-                PageRequest.of(usePage-1, 24, Sort.Direction.DESC, "createTime")
+                PostTypeEnum.PUBLIC_ARTICLE,
+                PageRequest.of(usePage-1, 24, Sort.Direction.DESC, "updateTime")
         );
 
-        model.addAttribute("posts",postVOPage);
+        model.addAttribute("postItemVo",postItemVo);
         model.addAttribute("keywords",useKeywords);
 
         return "search";

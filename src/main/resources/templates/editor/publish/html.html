@@ -55,6 +55,10 @@
             <hr class="mb-2 mt-2">
             <div class="mt-1">内容</div>
             <div id="content" class="mt-1"></div>
+                <div class="mt-1">
+                    公开 <input type="radio" checked id="postTypePublic" value="1" name="postType">
+                    私密 <input type="radio" value="2" name="postType">
+                </div>
             <button class="btn w-100 btn-primary" @click="publish" id="publishButton" v-text="publishText">发布</button>
             </div>
         </div>
@@ -80,7 +84,11 @@
                 }
                 formData.append("title",title);
                 formData.append("content",content);
-                formData.append("postType","1");
+                if(document.getElementById("postTypePublic").checked) {
+                    formData.append("postType", "1");
+                }else{
+                    formData.append("postType", "2");
+                }
                 formData.append("groupId","[[${groupId}]]");
                 if(this.attachmentPassword.trim()){
                     formData.append("attachmentPassword",SparkMD5.hash(this.attachmentPassword.trim()));

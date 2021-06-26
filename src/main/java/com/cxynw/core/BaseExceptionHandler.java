@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-@ControllerAdvice("com.cxyxm.controller")
+@ControllerAdvice("com.cxynw.controller")
 public class BaseExceptionHandler {
 
     private final LogUtils logUtils;

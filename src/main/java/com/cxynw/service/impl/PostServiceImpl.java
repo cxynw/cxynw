@@ -7,8 +7,10 @@ import com.cxynw.manager.PostAttachmentCacheDao;
 import com.cxynw.model.does.*;
 import com.cxynw.model.enums.CodeEnum;
 import com.cxynw.model.enums.FileTypeEnum;
+import com.cxynw.model.enums.PostTypeEnum;
 import com.cxynw.model.param.PostParam;
 import com.cxynw.model.response.BaseSuccessResponse;
+import com.cxynw.model.vo.PostItemVo;
 import com.cxynw.model.vo.PostVO;
 import com.cxynw.repository.FileMarkRepository;
 import com.cxynw.repository.PostRepository;
@@ -18,6 +20,8 @@ import com.cxynw.service.PostService;
 import com.cxynw.utils.DateUtils;
 import com.cxynw.utils.EntityUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,10 +31,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -93,6 +95,30 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<Post> page(PageRequest pageRequest) {
         return repository.findAll(pageRequest);
+    }
+
+    /**
+     * {@link com.cxynw.controller.web.BaseViewController}
+     * @param postTypeEnum
+     * @param pageRequest
+     * @return
+     */
+    @Override
+    @Transactional
+    public PostItemVo pagePostItemVo(PostTypeEnum postTypeEnum,PostGroup postGroup, PageRequest pageRequest) {
+        Post post = new Post();
+        if(postTypeEnum != null){
+            post.setPostType(postTypeEnum.getValue());
+        }
+        if(postGroup != null){
+            post.setPostGroups(Set.of(postGroup));
+        }
+        Example<Post> example = Example.of(post);
+
+        Page<Post> postPage = repository.findAll(example, pageRequest);
+
+        Optional<User> account = accountService.getCurrentAccount();
+        return PostItemVo.generate(postPage,account);
     }
 
     @Override
@@ -177,7 +203,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Page<PostVO> searchByKeywords(String keywords,PageRequest pageRequest) {
+    public PostItemVo searchByKeywords(String keywords,PostTypeEnum postTypeEnum,PageRequest pageRequest) {
         String[] keywordArray = keywords.split(" ");
         Page<Post> page = repository.findAll((root, query, criteriaBuilder) -> {
             Stream<Predicate> stream = Arrays.stream(keywordArray).map((item) -> {
@@ -194,12 +220,20 @@ public class PostServiceImpl implements PostService {
                 return criteriaBuilder.like(root.get("title"), text, '$');
             });
 
-            query.where(stream.toArray(Predicate[]::new));
+            if(postTypeEnum != null){
+                Predicate postType = criteriaBuilder.equal(root.get("postType"), postTypeEnum.getValue());
+                List<Predicate> collect = stream.collect(Collectors.toList());
+                collect.add(postType);
+                query.where(collect.toArray(Predicate[]::new));
+            }else{
+                query.where(stream.toArray(Predicate[]::new));
+            }
+
             return query.getRestriction();
         }, pageRequest);
 
         Optional<User> account = accountService.getCurrentAccount();
-        return EntityUtils.convertToPagePostVO(page,account);
+        return PostItemVo.generate(page,account);
     }
 
     @Override

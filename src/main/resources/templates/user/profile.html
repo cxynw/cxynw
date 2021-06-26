@@ -133,8 +133,11 @@
                 <tr>
                     <th rowspan="2"
                         scope="row"
-                        th:text="${s.index+1}">1</th>
-                    <td colspan="2" th:text="${post.title}" class="text-reset">Mark</td>
+                        style="word-break: keep-all"
+                        th:text="${post.postType==1?'公开':'私密'}"></th>
+                    <td colspan="2">
+                        <a th:text="${post.title}" th:href="@{/detail/{id}.html(id=${post.postId})}" class="text-reset"></a>
+                    </td>
                 </tr>
                 <tr>
                     <td>

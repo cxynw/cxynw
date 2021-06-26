@@ -2,6 +2,7 @@ package com.cxynw.utils;
 
 import com.cxynw.model.does.*;
 import com.cxynw.model.vo.PostGroupVO;
+import com.cxynw.model.vo.PostItemVo;
 import com.cxynw.model.vo.PostVO;
 import org.springframework.data.domain.Page;
 
