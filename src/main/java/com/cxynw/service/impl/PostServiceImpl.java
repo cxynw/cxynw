@@ -28,7 +28,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.*;
@@ -106,16 +109,26 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostItemVo pagePostItemVo(PostTypeEnum postTypeEnum,PostGroup postGroup, PageRequest pageRequest) {
-        Post post = new Post();
-        if(postTypeEnum != null){
-            post.setPostType(postTypeEnum.getValue());
-        }
-        if(postGroup != null){
-            post.setPostGroups(Set.of(postGroup));
-        }
-        Example<Post> example = Example.of(post);
+        Page<Post> postPage = repository.findAll((root, query, criteriaBuilder) -> {
+            ArrayList<Predicate> predicates = new ArrayList<>();
+            if(postTypeEnum != null){
+                if(log.isDebugEnabled()){
+                    log.debug("post type enum:[{}]",postTypeEnum);
+                }
+                predicates.add(criteriaBuilder.equal(root.get("postType"),postTypeEnum.getValue()));
+            }
+            if(postGroup != null){
+                if(log.isDebugEnabled()){
+                    log.debug("post group: [{}]",postGroup);
+                }
+                Join<Post, PostGroup> join = root.join("postGroups", JoinType.LEFT);
+                Predicate postGroupId = criteriaBuilder.equal(join.get("postGroupId").as(BigInteger.class), postGroup.getPostGroupId());
+                predicates.add(postGroupId);
+            }
+            query.where(predicates.toArray(Predicate[]::new));
 
-        Page<Post> postPage = repository.findAll(example, pageRequest);
+            return query.getRestriction();
+        },pageRequest);
 
         Optional<User> account = accountService.getCurrentAccount();
         return PostItemVo.generate(postPage,account);

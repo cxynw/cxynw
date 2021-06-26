@@ -104,6 +104,7 @@ public class BaseExceptionHandler {
 
         if(log.isDebugEnabled()){
             log.debug("throwable handling. exception name: {} message: {}",throwable.getClass().getName(),throwable.getMessage());
+            throwable.printStackTrace();
         }
 
         String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
