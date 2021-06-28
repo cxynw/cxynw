@@ -8,8 +8,19 @@ import java.util.Optional;
 
 public interface BaseQuery<T,ID> {
 
+    /**
+     * 根据id查询实体
+     *
+     * @param id
+     * @return
+     */
     Optional<T> findById(ID id);
 
+    /**
+     * 分页查询
+     * @param pageable
+     * @return
+     */
     Page<T> findAll(Pageable pageable);
 
     /**

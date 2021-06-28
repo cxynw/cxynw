@@ -9,6 +9,11 @@ import java.util.Optional;
 
 public interface UserDao extends BaseDao<User, BigInteger> {
 
+    /**
+     * 根据邮箱查找用户
+     * @param email
+     * @return
+     */
     Optional<User> findByEmail(@NotNull String email);
 
 }
