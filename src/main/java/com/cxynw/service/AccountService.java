@@ -2,8 +2,12 @@ package com.cxynw.service;
 
 import com.cxynw.model.does.User;
 import com.cxynw.model.param.AccountParam;
+import com.cxynw.model.vo.UserItemVo;
+import com.cxynw.model.vo.UserVO;
 import com.cxynw.service.base.CrudService;
 import lombok.NonNull;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigInteger;
@@ -26,5 +30,7 @@ public interface AccountService extends CrudService<User, BigInteger> {
 
     Optional<User> findAccountByUsername(@NonNull String username);
 
+    @PreAuthorize("hasRole('ADMIN')")
+    UserItemVo findAll(PageRequest pageRequest);
 
 }

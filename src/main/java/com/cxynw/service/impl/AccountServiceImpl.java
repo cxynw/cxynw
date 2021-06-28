@@ -8,12 +8,16 @@ import com.cxynw.model.does.Actor;
 import com.cxynw.model.enums.LogTypeEnum;
 import com.cxynw.model.param.AccountParam;
 import com.cxynw.model.param.LogParam;
+import com.cxynw.model.vo.UserItemVo;
 import com.cxynw.repository.UserRepository;
 import com.cxynw.service.AccountService;
 import com.cxynw.service.base.AbstractCrudService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,8 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -115,5 +119,13 @@ public class AccountServiceImpl extends AbstractCrudService<User, BigInteger> im
     @Override
     public Optional<User> findAccountByUsername(@NonNull String username) {
         return userCacheDao.findByUsername(username);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    @Override
+    public UserItemVo findAll(PageRequest pageRequest) {
+        Page<User> userPage = userRepository.findAll(pageRequest);
+        return UserItemVo.generate(userPage);
     }
 }

@@ -4,6 +4,7 @@ import com.cxynw.model.does.Post;
 import com.cxynw.model.does.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.Page;
 import org.springframework.util.Assert;
 
@@ -17,28 +18,8 @@ import java.util.Optional;
  * @see com.cxynw.model.does.User
  */
 @Data
-public class PostItemVo {
-
-    private Integer currentPage;
-    private Boolean hasPrevious;
-    private Integer previousPage; // 这个是自动设置的
-    private Boolean hasNext;
-    private Integer nextPage; // 这个是自动设置的
-    private Item[] items;
-
-    public void setHasPrevious(Boolean hasPrevious){
-        this.hasPrevious = hasPrevious;
-        if(hasPrevious){
-            this.previousPage = currentPage -1;
-        }
-    }
-
-    public void setHasNext(Boolean hasNext){
-        this.hasNext = hasNext;
-        if(hasNext){
-            this.nextPage = currentPage+1;
-        }
-    }
+@EqualsAndHashCode(callSuper=true)
+public class PostItemVo extends BaseItemVo<PostItemVo.Item> {
 
     public static PostItemVo generate(Page<Post> postPage, Optional<User> currentUser){
         PostItemVo vo = new PostItemVo();
