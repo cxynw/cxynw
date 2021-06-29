@@ -26,25 +26,14 @@ public class PostItemVo extends BaseItemVo<PostItemVo.Item> {
         vo.setCurrentPage(postPage.getNumber()+1);
         vo.setHasPrevious(postPage.hasPrevious());
         vo.setHasNext(postPage.hasNext());
+        vo.setPageSize(postPage.getSize());
 
         Item[] items = new Item[postPage.getContent().size()];
         List<Post> content = postPage.getContent();
         for (int i=0;i<items.length;i++) {
             Post post = content.get(i);
             Item item = new Item();
-            item.setPostId(post.getPostId());
-            item.setPostTitle(post.getTitle());
-            item.setUserNickname(post.getPublisher().getNickname());
-            item.setPostCreateTime(post.getCreateTime());
-            item.setPostVisits(post.getVisits());
-            if(currentUser.isPresent()){
-                item.setIsOwner(post.getPublisher().getUserId().equals(currentUser.get().getUserId()));
-            }else{
-                item.setIsOwner(false);
-            }
-            item.setUserAvatarSrc(post.getPublisher().getAvatarId());
-            item.setPostEditSrc();
-            item.setPostDetailSrc();
+            item.autoSet(post,currentUser);
             items[i] = item;
         }
         vo.setItems(items);
@@ -65,6 +54,21 @@ public class PostItemVo extends BaseItemVo<PostItemVo.Item> {
         private String postEditSrc; //帖子的编辑地址
         private String postDetailSrc;
 
+        public void autoSet(Post post,Optional<User> currentUser){
+            this.setPostId(post.getPostId());
+            this.setPostTitle(post.getTitle());
+            this.setUserNickname(post.getPublisher().getNickname());
+            this.setPostCreateTime(post.getCreateTime());
+            this.setPostVisits(post.getVisits());
+            if(currentUser.isPresent()){
+                this.setIsOwner(post.getPublisher().getUserId().equals(currentUser.get().getUserId()));
+            }else{
+                this.setIsOwner(false);
+            }
+            this.setUserAvatarSrc(post.getPublisher().getAvatarId());
+            this.setPostEditSrc();
+            this.setPostDetailSrc();
+        }
 
         public void setPostDetailSrc(){
             Assert.notNull(postId,"设置帖子详情地址前必须设置帖子ID");

@@ -5,7 +5,7 @@ import com.cxynw.model.does.FileMark;
 import com.cxynw.model.enums.CodeEnum;
 import com.cxynw.model.enums.FileTypeEnum;
 import com.cxynw.model.query.FileInfoImpl;
-import com.cxynw.service.FileService;
+import com.cxynw.service.FileMarkService;
 import com.cxynw.utils.AvatarUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +25,10 @@ import java.util.Optional;
 @Transactional
 public class FileDownloadController {
 
-    private final FileService fileService;
+    private final FileMarkService fileMarkService;
 
-    public FileDownloadController(FileService fileService) {
-        this.fileService = fileService;
+    public FileDownloadController(FileMarkService fileMarkService) {
+        this.fileMarkService = fileMarkService;
     }
 
 
@@ -69,7 +69,7 @@ public class FileDownloadController {
 //            log.debug("开始下载头像： id:{} extension:{} password:{}",id,extension,password);
         }
 
-        Optional<FileMark> optional = fileService.findById(id);
+        Optional<FileMark> optional = fileMarkService.findById(id);
         if(optional.isEmpty()){
             return;
         }
@@ -79,7 +79,7 @@ public class FileDownloadController {
 //            return;
 //        }
 
-        fileService.autoResponseFile(new FileInfoImpl(fileMark),response);
+        fileMarkService.autoResponseFile(new FileInfoImpl(fileMark),response);
     }
 
     /**
@@ -138,7 +138,7 @@ public class FileDownloadController {
             log.debug("开始下载附件： id:{} extension:{} password:{}",id,extension,password);
         }
 
-        Optional<FileMark> optional = fileService.findById(id);
+        Optional<FileMark> optional = fileMarkService.findById(id);
         if(optional.isEmpty()){
             return;
         }
@@ -150,7 +150,7 @@ public class FileDownloadController {
 
 
 
-        fileService.autoResponseFile(new FileInfoImpl(fileMark),response);
+        fileMarkService.autoResponseFile(new FileInfoImpl(fileMark),response);
     }
 
     /**
@@ -170,7 +170,7 @@ public class FileDownloadController {
             @RequestParam(value = "password",required = false)String password,
             HttpServletResponse response) throws IOException {
 
-        Optional<FileMark> optional = fileService.findById(id);
+        Optional<FileMark> optional = fileMarkService.findById(id);
 
         if(optional.isEmpty()){
             return;
@@ -184,9 +184,9 @@ public class FileDownloadController {
 
 
         FileInfoImpl fileInfo = new FileInfoImpl(fileMark);
-        fileService.setDownloadHeader(fileInfo,response);
+        fileMarkService.setDownloadHeader(fileInfo,response);
 
-        fileService.autoResponseFile(fileInfo,response);
+        fileMarkService.autoResponseFile(fileInfo,response);
 
     }
 

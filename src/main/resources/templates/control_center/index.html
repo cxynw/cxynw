@@ -9,26 +9,7 @@
     <title>控制中心</title>
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>用户ID</th>
-        <th>昵称</th>
-        <th>用户名</th>
-        <th>邮箱</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${userItemVo.items}">
-        <td th:text="${item.userId}"></td>
-        <td th:text="${item.nickname}"></td>
-        <td th:text="${item.username}"></td>
-        <td th:text="${item.email}"></td>
-    </tr>
-    </tbody>
-    <a th:if="${userItemVo.hasPrevious}"
-       th:href="@{/control_center/index.html?page={page}(page=${userItemVo.previousPage})}">上一页</a>
-    <a th:if="${userItemVo.hasNext}" th:href="@{/control_center/index.html?page={page}(page=${userItemVo.nextPage})}">下一页</a>
-</table>
+<a href="/control_center/users.html">账号控制</a>
+<a href="/control_center/file_marks.html">文件标识管理</a>
 </body>
 </html>

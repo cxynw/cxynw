@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>控制中心</title>
+</head>
+<body>
+<a href="/control_center/index.html">控制中心</a>
+<table>
+    <thead>
+    <tr>
+        <th>文件标识ID</th>
+        <th>文件名</th>
+        <th>文件扩展</th>
+        <th>文件下载次数</th>
+        <th>文件大小</th>
+        <th>文件sha256</th>
+        <th>创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${fileMarkItemVo.items}">
+        <td th:text="${item.fileMarkId}"></td>
+        <td th:text="${item.fileBasename}"></td>
+        <td th:text="${item.fileExtension}"></td>
+        <td th:text="${item.fileDownloadTimes}"></td>
+        <td th:text="${item.fileSize}"></td>
+        <td th:text="${item.fileSha256}"></td>
+        <td th:text="${#dates.format(item.fileMarkCreateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    </tbody>
+    <a th:if="${fileMarkItemVo.hasPrevious}"
+       th:href="@{/control_center/file_marks.html?page={page}&limit={limit}(page=${fileMarkItemVo.previousPage},limit=${fileMarkItemVo.pageSize})}">上一页</a>
+    <a th:if="${fileMarkItemVo.hasNext}"
+       th:href="@{/control_center/file_marks.html?page={page}&limit={limit}(page=${fileMarkItemVo.nextPage},limit=${fileMarkItemVo.pageSize})}"
+    >下一页</a>
+</table>
+</body>
+</html>

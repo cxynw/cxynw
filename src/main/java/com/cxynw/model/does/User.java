@@ -13,7 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users",indexes = {
-        @Index(name = "avatarId", columnList = "avatar_file_mark_id")
+        @Index(name = "avatarId", columnList = "avatar_file_mark_id"),
+        @Index(name = "username",columnList = "username")
 })
 @Entity(name = "User")
 @ToString(callSuper = true)
@@ -29,7 +30,7 @@ public class User extends BaseEntity{
     private BigInteger userId;
 
 
-    @Column(name = "username",length = 64,nullable = false,unique = true,
+    @Column(name = "username",length = 64,nullable = false,
             columnDefinition = "varchar(64) comment '用户名'")
     private String username;
     @Column(name = "email",length = 128,nullable = false,

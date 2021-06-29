@@ -46,13 +46,10 @@ class BaseDaoImplTest {
     void findAll() {
         Page<User> userPage = baseDao.findAll(PageRequest.of(0, 12));
         log.debug("user page: [{}]",userPage);
-        int size = userPage.getContent().size();
         List<User> content = userPage.getContent();
-        for(int i=0;i<size;i++){
-            BigInteger userid = content.get(i).getUserId();
-            log.debug("expected: [{}] actual: [{}]",i+1,userid);
-            assertTrue(userid.equals(BigInteger.valueOf(i+1)),"如果数据库数据改成了可以物理删除，请修改此处");
-        }
+        String username = content.get(0).getUsername();
+        log.debug("expected: [{}] actual: [{}]","admin",username);
+        assertTrue("admin".equals(username),"请确认初始测试账号没问题");
     }
 
     @Test

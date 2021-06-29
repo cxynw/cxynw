@@ -9,7 +9,7 @@ import com.cxynw.model.param.AccountParam;
 import com.cxynw.model.response.BaseSuccessResponse;
 import com.cxynw.model.vo.BaseVO;
 import com.cxynw.service.AccountService;
-import com.cxynw.service.FileService;
+import com.cxynw.service.FileMarkService;
 import com.cxynw.service.UserService;
 import com.cxynw.model.enums.DataTypeEnum;
 import io.swagger.annotations.ApiOperation;
@@ -29,13 +29,13 @@ import java.util.List;
 public class BaseApiController {
 
     private final UserService userService;
-    private final FileService fileService;
+    private final FileMarkService fileMarkService;
     private final AccountService accountService;
 
     public BaseApiController(UserService userService,
-                             FileService fileService, AccountService accountService) {
+                             FileMarkService fileMarkService, AccountService accountService) {
         this.userService = userService;
-        this.fileService = fileService;
+        this.fileMarkService = fileMarkService;
         this.accountService = accountService;
     }
 
@@ -51,7 +51,7 @@ public class BaseApiController {
             log.debug("start upload avatar");
         }
 
-        FileMark fileMark = fileService.uploadFiles(avatar, FileTypeEnum.AVATAR);
+        FileMark fileMark = fileMarkService.uploadFiles(avatar, FileTypeEnum.AVATAR);
         User user = accountService.getCurrentAccount().get();
 
         boolean b = userService.setAvatarById(fileMark.getFileMarkId(), user.getUserId());
@@ -71,7 +71,7 @@ public class BaseApiController {
     ){
         switch (uploadParam.getDataType().toUpperCase()){
             case DataTypeEnum.IMAGE:{
-                List<FileMark> fileMarkList = fileService.uploadFiles(files, FileTypeEnum.IMAGE);
+                List<FileMark> fileMarkList = fileMarkService.uploadFiles(files, FileTypeEnum.IMAGE);
                 FileInfo[] wg_images = new FileInfo[fileMarkList.size()];
                 for (int i = 0; i < fileMarkList.size(); i++) {
                     FileMark item = fileMarkList.get(i);

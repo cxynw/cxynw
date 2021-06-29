@@ -11,17 +11,13 @@ import com.cxynw.model.enums.PostTypeEnum;
 import com.cxynw.model.param.PostParam;
 import com.cxynw.model.response.BaseSuccessResponse;
 import com.cxynw.model.vo.PostItemVo;
-import com.cxynw.model.vo.PostVO;
 import com.cxynw.repository.FileMarkRepository;
 import com.cxynw.repository.PostRepository;
 import com.cxynw.service.AccountService;
-import com.cxynw.service.FileService;
+import com.cxynw.service.FileMarkService;
 import com.cxynw.service.PostService;
 import com.cxynw.utils.DateUtils;
-import com.cxynw.utils.EntityUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +27,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.*;
@@ -77,7 +72,7 @@ public class PostServiceImpl implements PostService {
         repository.save(post);
 
         if(postParam.getAttachment() != null){
-            FileMark fileMark = fileService.uploadFiles(postParam.getAttachment(), FileTypeEnum.ATTACHMENT);
+            FileMark fileMark = fileMarkService.uploadFiles(postParam.getAttachment(), FileTypeEnum.ATTACHMENT);
 
             if(log.isDebugEnabled()){
                 log.debug("query param: {}",postParam);
@@ -184,7 +179,7 @@ public class PostServiceImpl implements PostService {
 
 
             if(postParam.getAttachment() != null){
-                FileMark fileMark = fileService.uploadFiles(postParam.getAttachment(), FileTypeEnum.ATTACHMENT);
+                FileMark fileMark = fileMarkService.uploadFiles(postParam.getAttachment(), FileTypeEnum.ATTACHMENT);
 
                 if(log.isDebugEnabled()){
                     log.debug("query param: {}",postParam);
@@ -258,19 +253,19 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository repository;
     private final AccountService accountService;
-    private final FileService fileService;
+    private final FileMarkService fileMarkService;
     private final FileMarkRepository fileMarkRepository;
     private final PostDao postDao;
 
     public PostServiceImpl(PostAttachmentCacheDao attachmentCacheDao, PostRepository repository,
                            AccountService accountService,
-                           FileService fileService, FileMarkRepository fileMarkRepository,
+                           FileMarkService fileMarkService, FileMarkRepository fileMarkRepository,
                            PostDao postDao) {
         this.attachmentCacheDao = attachmentCacheDao;
 
         this.repository = repository;
         this.accountService = accountService;
-        this.fileService = fileService;
+        this.fileMarkService = fileMarkService;
         this.fileMarkRepository = fileMarkRepository;
         this.postDao = postDao;
     }

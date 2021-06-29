@@ -10,6 +10,7 @@ public class BaseItemVo<T> {
     protected Integer previousPage; // 这个是自动设置的
     protected Boolean hasNext;
     protected Integer nextPage; // 这个是自动设置的
+    protected Integer pageSize;
     protected T[] items;
 
     public void setHasPrevious(Boolean hasPrevious){
