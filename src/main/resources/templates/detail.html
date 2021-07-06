@@ -86,7 +86,7 @@
         <p th:text="|发布时间：${#dates.format(post.createTime,'yyyy-MM-dd')}">
         </p>
         <hr>
-        <div th:utext="${post.content}"></div>
+        <div class="post-content" th:utext="${post.content}"></div>
         <hr>
         <p v-if="data.comments !==undefined && data.comments.length > 0">暖友：</p>
         <ul class="list-unstyled mb-2" v-for="comment in data.comments">
