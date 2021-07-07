@@ -19,7 +19,8 @@ public class UserViewController {
     private final PostService postService;
     private final AccountService accountService;
 
-    public UserViewController(PostService postService, AccountService accountService) {
+    public UserViewController(PostService postService,
+                              AccountService accountService) {
         this.postService = postService;
         this.accountService = accountService;
     }

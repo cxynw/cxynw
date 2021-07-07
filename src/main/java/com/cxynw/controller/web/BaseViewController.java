@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,25 +35,6 @@ import java.util.Optional;
 @RequestMapping("/")
 public class BaseViewController {
 
-    private final PostService postService;
-    private final PostGroupService postGroupService;
-    private final UserService userService;
-    private final AccountService accountService;
-    private final PostAttachmentService attachmentService;
-    private final FileMarkCacheDao fileMarkCacheDao;
-
-    public BaseViewController(PostService postService,
-                              PostGroupService postGroupService,
-                              UserService userService,
-                              AccountService accountService, PostAttachmentService attachmentService, FileMarkCacheDao fileMarkCacheDao) {
-        this.postService = postService;
-        this.postGroupService = postGroupService;
-        this.userService = userService;
-        this.accountService = accountService;
-        this.attachmentService = attachmentService;
-        this.fileMarkCacheDao = fileMarkCacheDao;
-    }
-
     @GetMapping(value = {"/index.html"})
     public String index(){return "forward:/page/1.html";}
 
@@ -65,9 +47,6 @@ public class BaseViewController {
     @Transactional
     public String page(Model model,
                        @Valid @PathVariable("page")Integer page){
-        if(log.isDebugEnabled()){
-            log.debug("index page: {}",page);
-        }
         if(page <= 0){
             page = 1;
         }
@@ -77,6 +56,10 @@ public class BaseViewController {
         model.addAttribute("postItemVo", postItemVo);
         model.addAttribute("groups",groups);
 
+        if(log.isDebugEnabled()){
+            log.debug("page: {}",page);
+        }
+
         return "page";
     }
 
@@ -85,15 +68,15 @@ public class BaseViewController {
     public String group(@PathVariable("page")Integer page,
                         @PathVariable("groupId")BigInteger groupId,
                         Model model) throws Throwable {
-        if(log.isDebugEnabled()){
-            log.debug("/group/{groupId[\\d]+}_{[page[\\d]+}.html");
-        }
         if(page <= 0){
             page = 1;
         }
 
         Optional<PostGroup> id = postGroupService.findById(groupId);
-        PostGroup group = id.orElseThrow(() -> new Throwable("该贴吧没有找到"));
+        PostGroup group = id.orElseThrow(() -> {
+            log.debug("not found post group by id :[{}]",groupId);
+            return new Throwable("该贴吧没有找到");
+        });
 
         Page<PostGroup> groups = postGroupService.page(PageRequest.of(0, 24, Sort.Direction.DESC, "createTime"));
 
@@ -101,6 +84,11 @@ public class BaseViewController {
         model.addAttribute("postItemVo", postItemVo);
         model.addAttribute("groups",groups);
         model.addAttribute("currentGroup",group);
+
+        if(log.isDebugEnabled()){
+            log.debug("/group/{}_{}.html",groupId,page);
+        }
+
         return "group";
     }
 
@@ -136,10 +124,6 @@ public class BaseViewController {
             return vo;
         }).toArray(PostAttachmentVO[]::new);
 
-        if(log.isDebugEnabled()){
-            log.debug("set model");
-        }
-
         List<Post> aboutPosts = postService.page(PageRequest.of(0,12, Sort.Direction.ASC,"createTime")).getContent();
 
         model.addAttribute("description", Jsoup.clean(post.getContent(), Whitelist.none()));
@@ -163,6 +147,27 @@ public class BaseViewController {
             response.setStatus(errorCode);
         }
         return "error";
+    }
+
+    private final PostService postService;
+    private final PostGroupService postGroupService;
+    private final UserService userService;
+    private final AccountService accountService;
+    private final PostAttachmentService attachmentService;
+    private final FileMarkCacheDao fileMarkCacheDao;
+
+    public BaseViewController(PostService postService,
+                              PostGroupService postGroupService,
+                              UserService userService,
+                              AccountService accountService,
+                              PostAttachmentService attachmentService,
+                              FileMarkCacheDao fileMarkCacheDao) {
+        this.postService = postService;
+        this.postGroupService = postGroupService;
+        this.userService = userService;
+        this.accountService = accountService;
+        this.attachmentService = attachmentService;
+        this.fileMarkCacheDao = fileMarkCacheDao;
     }
 
 }

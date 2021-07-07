@@ -31,11 +31,6 @@ public class FileDownloadController {
         this.fileMarkService = fileMarkService;
     }
 
-
-    private void setCacheHeader(HttpServletResponse response){
-        response.setHeader("Cache-Control","");
-    }
-
     @ApiOperation("系统自动帮助没有设置头像的用户设置头像")
     @GetMapping("/avatar/generate/{nickname}")
     public void avatar(@PathVariable("nickname")String nickname,
@@ -51,9 +46,6 @@ public class FileDownloadController {
      * 头像下载，开启事务
      *
      * @param id
-     * @param extension
-     * @param password
-     * @param response
      * @throws IOException
      */
     @ApiOperation("头像下载接口")

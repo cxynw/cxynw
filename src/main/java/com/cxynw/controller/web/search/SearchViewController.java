@@ -48,6 +48,9 @@ public class SearchViewController {
         model.addAttribute("postItemVo",postItemVo);
         model.addAttribute("keywords",useKeywords);
 
+        if(log.isDebugEnabled()){
+            log.debug("keywords: [{}] page: [{}]",keywords,page);
+        }
         return "search";
     }
 

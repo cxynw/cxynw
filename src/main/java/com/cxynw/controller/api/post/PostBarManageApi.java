@@ -1,4 +1,4 @@
-package com.cxynw.controller.post;
+package com.cxynw.controller.api.post;
 
 import com.cxynw.model.does.PostGroup;
 import com.cxynw.model.enums.CodeEnum;
