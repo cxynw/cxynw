@@ -254,7 +254,20 @@
     </div>
 </div>
 
-<div th:fragment="site-footer" id="page-footer" class="text-center pt-4 pb-4" th:text="'Copyright ©'+${@app.name}+' 2021-2025'"></div>
+<div th:fragment="site-footer">
+    <div id="page-footer-filler"></div>
+    <div id="page-footer-content">
+        <div class="container">
+            <p class="m-0 mb-1" th:text="'Copyright ©'+${@app.name}+' 2021-2025'"></p>
+            <p class="m-0 mb-1" th:text="${@app.name}+'欢迎您的加入本网站的维护'"></p>
+            <p class="m-0 mb-1">
+                网址源代码
+                <a href="https://github.com/cxynw/cxynw">点击此处获取</a>
+                如果发现BUG还请第一时间反馈给我们
+            </p>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

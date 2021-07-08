@@ -1,13 +1,42 @@
 :root{
     --backgroud-color: rgb(253, 230, 224);
     --secondary-backgroud-color: #ffffff;
-    --footer-backgroud-color: #232323;
+    /*--footer-backgroud-color: #232323;*/
 
     --text-color: #2c2c2c;
     --text-muted-color: #999;
-    --text-footer-color: #979b9e;
+    --text-footer-color: #6c757d;
     --text-shadow: #FFB3CC;
     --text-font: 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+html{
+    height: 100%;
+}
+body{
+    font-family: var(--text-font);
+    color: var(--text-color);
+    position: relative; /*开启相对订阅，给footer在内容没有填满屏幕时显示在底部用的*/
+    min-height: 100%;
+}
+#page-footer-content{
+    background-color: var(--secondary-backgroud-color);
+    color: var(--text-footer-color);
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 120px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+#page-footer-content::before{
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+}
+
+#page-footer-filler{
+    height: 120px;
 }
 
 /*tool css*/
@@ -37,20 +66,10 @@
     text-align: center;
 }
 
-body{
-    font-family: var(--text-font);
-    color: var(--text-color);
-}
-
 #page-navbar{
     text-shadow: 4px 0 12px var(--text-shadow);
-    box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
-#page-footer{
-    background-color: var(--footer-backgroud-color);
-    color: var(--text-footer-color);
-}
-
 .navbar-brand,.nav-link,a{
     color: var(--text-color)!important;
 }

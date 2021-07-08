@@ -28,7 +28,6 @@
 
 <div th:replace="page::site-header"></div>
 
-
 <div class="container mb-5">
     <div class="row">
         <div class="col-12 mt-3">
@@ -48,7 +47,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <div class="custom-file">
+                        <div  class="custom-file" style="display: inline-block">
                             <input type="file" accept="image/*" class="custom-file-input" id="customFile">
                             <label class="custom-file-label" for="customFile">新头像</label>
                         </div>
@@ -157,6 +156,8 @@
     </div>
 </div>
 
+<div th:replace="page::site-footer"></div>
+
 <script type="text/javascript">
     new Vue({
         el:"#vue",
@@ -256,8 +257,5 @@
         })
     }
 </script>
-
-<div th:replace="page::site-footer"></div>
-
 </body>
 </html>
