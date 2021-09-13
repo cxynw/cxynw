@@ -1,4 +1,4 @@
-package com.cxynw.model.vo;
+package com.cxynw.model.vo2;
 
 import com.cxynw.model.does.PostGroup;
 import com.cxynw.utils.EntityUtils;

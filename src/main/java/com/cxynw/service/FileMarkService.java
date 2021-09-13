@@ -3,7 +3,7 @@ package com.cxynw.service;
 import com.cxynw.model.does.FileMark;
 import com.cxynw.model.enums.FileTypeEnum;
 import com.cxynw.model.query.FileInfo;
-import com.cxynw.model.vo.FileMarkItemVo;
+import com.cxynw.model.vo2.FileMarkItemVo;
 import com.cxynw.service.base.CrudService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;

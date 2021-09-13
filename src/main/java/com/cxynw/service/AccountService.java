@@ -2,8 +2,7 @@ package com.cxynw.service;
 
 import com.cxynw.model.does.User;
 import com.cxynw.model.param.AccountParam;
-import com.cxynw.model.vo.UserItemVo;
-import com.cxynw.model.vo.UserVO;
+import com.cxynw.model.vo2.UserItemVo;
 import com.cxynw.service.base.CrudService;
 import lombok.NonNull;
 import org.springframework.data.domain.PageRequest;

@@ -1,6 +1,6 @@
 logging:
   level:
-    com.cxynw: debug
+    com.cxynw: trace
     org.springframework.orm.jpa: debug
 spring:
   jpa:

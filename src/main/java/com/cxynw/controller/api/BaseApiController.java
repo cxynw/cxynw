@@ -7,7 +7,7 @@ import com.cxynw.model.enums.FileTypeEnum;
 import com.cxynw.model.param.UploadParam;
 import com.cxynw.model.param.AccountParam;
 import com.cxynw.model.response.BaseSuccessResponse;
-import com.cxynw.model.vo.BaseVO;
+import com.cxynw.model.vo2.BaseVO;
 import com.cxynw.service.AccountService;
 import com.cxynw.service.FileMarkService;
 import com.cxynw.service.UserService;

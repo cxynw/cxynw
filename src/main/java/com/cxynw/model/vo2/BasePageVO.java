@@ -1,4 +1,4 @@
-package com.cxynw.model.vo;
+package com.cxynw.model.vo2;
 
 import lombok.*;
 
@@ -9,9 +9,9 @@ import lombok.*;
 @EqualsAndHashCode(callSuper=true)
 public class BasePageVO<T> extends BaseVO<T>{
 
-    private int nextPage;
-    private int PreviousPage;
-    private boolean hasNext;
-    private boolean hasPrevious;
+    private Integer nextPage;
+    private Integer PreviousPage;
+    private Boolean hasNext;
+    private Boolean hasPrevious;
 
 }

@@ -1,6 +1,5 @@
-package com.cxynw.model.vo;
+package com.cxynw.model.vo2;
 
-import com.cxynw.model.does.Post;
 import com.cxynw.model.does.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

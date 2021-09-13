@@ -8,7 +8,7 @@ import com.cxynw.model.does.User;
 import com.cxynw.model.does.FileMark;
 import com.cxynw.model.enums.FileTypeEnum;
 import com.cxynw.model.query.FileInfo;
-import com.cxynw.model.vo.FileMarkItemVo;
+import com.cxynw.model.vo2.FileMarkItemVo;
 import com.cxynw.repository.FileMarkRepository;
 import com.cxynw.service.AccountService;
 import com.cxynw.service.FileMarkService;

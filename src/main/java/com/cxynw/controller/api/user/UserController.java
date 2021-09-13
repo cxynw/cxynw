@@ -1,8 +1,8 @@
 package com.cxynw.controller.api.user;
 
 import com.cxynw.model.does.User;
-import com.cxynw.model.vo.Base;
-import com.cxynw.model.vo.UserVO;
+import com.cxynw.model.vo2.Base;
+import com.cxynw.model.vo2.UserVO;
 import com.cxynw.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

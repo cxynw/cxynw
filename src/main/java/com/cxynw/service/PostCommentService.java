@@ -3,7 +3,7 @@ package com.cxynw.service;
 import com.cxynw.model.does.Post;
 import com.cxynw.model.does.PostComment;
 import com.cxynw.model.query.PostCommentInsert;
-import com.cxynw.model.vo.PostCommentVO;
+import com.cxynw.model.vo2.PostCommentVO;
 import com.cxynw.service.base.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

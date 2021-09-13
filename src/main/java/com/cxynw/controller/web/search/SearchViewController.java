@@ -1,11 +1,9 @@
 package com.cxynw.controller.web.search;
 
 import com.cxynw.model.enums.PostTypeEnum;
-import com.cxynw.model.vo.PostItemVo;
-import com.cxynw.model.vo.PostVO;
+import com.cxynw.model.vo2.PostItemVo;
 import com.cxynw.service.PostService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;

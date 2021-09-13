@@ -8,7 +8,7 @@ import com.cxynw.model.does.Actor;
 import com.cxynw.model.enums.LogTypeEnum;
 import com.cxynw.model.param.AccountParam;
 import com.cxynw.model.param.LogParam;
-import com.cxynw.model.vo.UserItemVo;
+import com.cxynw.model.vo2.UserItemVo;
 import com.cxynw.repository.UserRepository;
 import com.cxynw.service.AccountService;
 import com.cxynw.service.base.AbstractCrudService;

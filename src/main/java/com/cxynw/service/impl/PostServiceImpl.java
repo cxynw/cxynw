@@ -10,7 +10,7 @@ import com.cxynw.model.enums.FileTypeEnum;
 import com.cxynw.model.enums.PostTypeEnum;
 import com.cxynw.model.param.PostParam;
 import com.cxynw.model.response.BaseSuccessResponse;
-import com.cxynw.model.vo.PostItemVo;
+import com.cxynw.model.vo2.PostItemVo;
 import com.cxynw.repository.FileMarkRepository;
 import com.cxynw.repository.PostRepository;
 import com.cxynw.service.AccountService;
@@ -24,9 +24,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.*;
@@ -212,36 +210,48 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostItemVo searchByKeywords(String keywords,PostTypeEnum postTypeEnum,PageRequest pageRequest) {
-        String[] keywordArray = keywords.split(" ");
-        Page<Post> page = repository.findAll((root, query, criteriaBuilder) -> {
-            Stream<Predicate> stream = Arrays.stream(keywordArray).map((item) -> {
-                String text = "%" + item
-                                .replace("$", "$$")
-                                .replace("%", "$%")
-                                .replace("_", "$_")
-                                .replace("[", "$[")
-                                .replace("]", "$]")
-                        + "%";
-
-                log.debug("keywords: {0}",text);
-
-                return criteriaBuilder.like(root.get("title"), text, '$');
-            });
-
-            if(postTypeEnum != null){
-                Predicate postType = criteriaBuilder.equal(root.get("postType"), postTypeEnum.getValue());
-                List<Predicate> collect = stream.collect(Collectors.toList());
-                collect.add(postType);
-                query.where(collect.toArray(Predicate[]::new));
-            }else{
-                query.where(stream.toArray(Predicate[]::new));
-            }
-
-            return query.getRestriction();
-        }, pageRequest);
-
+        Page<Post> page = searchByKeywords(keywords,postTypeEnum,null,pageRequest);
         Optional<User> account = accountService.getCurrentAccount();
         return PostItemVo.generate(page,account);
+    }
+
+    private Predicate[] keywordConvertToPredicate(String[] keywordArray, CriteriaBuilder criteriaBuilder, Root root){
+        Stream<Predicate> stream = Arrays.stream(keywordArray).map((item) -> {
+            String text = "%" + item
+                    .replace("$", "$$")
+                    .replace("%", "$%")
+                    .replace("_", "$_")
+                    .replace("[", "$[")
+                    .replace("]", "$]")
+                    + "%";
+
+            log.debug("keywords: [{}]",text);
+
+            return criteriaBuilder.like(root.get("title"), text, '$');
+        });
+        return stream.toArray(Predicate[]::new);
+    }
+
+    @Override
+    public Page<Post> searchByKeywords(String keywords,PostTypeEnum postTypeEnum,User user,PageRequest pageRequest) {
+        String[] keywordArray = keywords.split(" ");
+        return repository.findAll((root, query, criteriaBuilder) -> {
+            Predicate[] predicates = keywordConvertToPredicate(keywordArray, criteriaBuilder, root);
+
+            List<Predicate> collect = Arrays.stream(predicates).collect(Collectors.toList());
+
+            if(user != null){
+                Predicate publisher = criteriaBuilder.equal(root.get("publisher"),user);
+                collect.add(publisher);
+            }
+            if(postTypeEnum != null){
+                Predicate postType = criteriaBuilder.equal(root.get("postType"), postTypeEnum.getValue());
+                collect.add(postType);
+            }
+
+            query.where(collect.toArray(Predicate[]::new));
+            return query.getRestriction();
+        },pageRequest);
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.cxynw.model.does.PostComment;
 import com.cxynw.model.does.User;
 import com.cxynw.model.enums.CodeEnum;
 import com.cxynw.model.query.PostCommentInsert;
-import com.cxynw.model.vo.PostCommentVO;
+import com.cxynw.model.vo2.PostCommentVO;
 import com.cxynw.repository.PostCommentRepository;
 import com.cxynw.service.AccountService;
 import com.cxynw.service.PostCommentService;

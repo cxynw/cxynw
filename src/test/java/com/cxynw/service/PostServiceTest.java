@@ -1,15 +1,13 @@
 package com.cxynw.service;
 
 import com.cxynw.model.enums.PostTypeEnum;
-import com.cxynw.model.vo.PostItemVo;
+import com.cxynw.model.vo2.PostItemVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.test.context.support.WithMockUser;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @WithMockUser

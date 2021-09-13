@@ -1,4 +1,4 @@
-package com.cxynw.model.vo;
+package com.cxynw.model.vo2;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

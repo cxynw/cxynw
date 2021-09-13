@@ -1,4 +1,4 @@
-package com.cxynw.model.vo;
+package com.cxynw.model.vo2;
 
 import com.cxynw.model.does.FileMark;
 import com.fasterxml.jackson.annotation.JsonFormat;

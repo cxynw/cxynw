@@ -3,11 +3,11 @@ package com.cxynw.service;
 
 import com.cxynw.model.does.Post;
 import com.cxynw.model.does.PostGroup;
+import com.cxynw.model.does.User;
 import com.cxynw.model.enums.PostTypeEnum;
 import com.cxynw.model.param.PostParam;
 import com.cxynw.model.response.BaseSuccessResponse;
-import com.cxynw.model.vo.PostItemVo;
-import com.cxynw.model.vo.PostVO;
+import com.cxynw.model.vo2.PostItemVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -47,6 +47,8 @@ public interface PostService {
     BaseSuccessResponse edit(PostParam postParam);
 
     PostItemVo searchByKeywords(String keywords,PostTypeEnum postTypeEnum,PageRequest pageRequest);
+
+    Page<Post> searchByKeywords(String keywords,PostTypeEnum postTypeEnum,User user,PageRequest pageRequest);
 
     int addVisitsById(BigInteger id);
 

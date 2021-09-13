@@ -5,7 +5,7 @@ import com.cxynw.model.enums.CodeEnum;
 import com.cxynw.model.query.PostCommentInsert;
 import com.cxynw.model.query.PostCommentQuery;
 import com.cxynw.model.response.BaseSuccessResponse;
-import com.cxynw.model.vo.PostCommentVO;
+import com.cxynw.model.vo2.PostCommentVO;
 import com.cxynw.service.PostCommentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.PageRequest;

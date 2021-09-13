@@ -1,9 +1,8 @@
 package com.cxynw.utils;
 
 import com.cxynw.model.does.*;
-import com.cxynw.model.vo.PostGroupVO;
-import com.cxynw.model.vo.PostItemVo;
-import com.cxynw.model.vo.PostVO;
+import com.cxynw.model.vo2.PostGroupVO;
+import com.cxynw.model.vo2.PostVO;
 import org.springframework.data.domain.Page;
 
 import java.math.BigInteger;
