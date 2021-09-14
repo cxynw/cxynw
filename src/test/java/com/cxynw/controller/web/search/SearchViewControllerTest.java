@@ -22,7 +22,7 @@ class SearchViewControllerTest {
     @Test
     void keywords() throws Exception {
         String uri = "/search/{keywords}/{page}.html";
-//        mockMvc.perform(get(uri,"%",1)).andExpect(status().isOk());
+        mockMvc.perform(get(uri,"%",1)).andExpect(status().isOk());
         mockMvc.perform(get(uri,"sldkfjsad",1)).andExpect(status().isOk());
         mockMvc.perform(get(uri,"sldkfjsad",2)).andExpect(status().isOk());
         mockMvc.perform(get(uri,"sldkfjsad",0)).andExpect(status().isOk());
