@@ -25,9 +25,6 @@ public class CxynwApplication {
     @ConfigurationProperties(prefix = "application")
     public ApplicationConfig getApplicationConfig(){
         ApplicationConfig applicationConfig = new ApplicationConfig();
-        if(log.isInfoEnabled()){
-            log.info("application config: [{}]", applicationConfig);
-        }
         return applicationConfig;
     }
 
@@ -36,7 +33,10 @@ public class CxynwApplication {
         int beanDefinitionCount = context.getBeanDefinitionCount();
         String[] beanDefinitionNames = context.getBeanDefinitionNames();
         String applicationName = context.getApplicationName();
+        ApplicationConfig applicationConfig = context.getBean(ApplicationConfig.class);
+
         if(log.isInfoEnabled()){
+            log.info("application config: [{}]", applicationConfig);
             log.info(String.format("application name: %s",applicationName));
             log.info(String.format("bean definition count: %d",beanDefinitionCount));
             log.info(String.format("bean definition names: %s", Arrays.toString(beanDefinitionNames)));
