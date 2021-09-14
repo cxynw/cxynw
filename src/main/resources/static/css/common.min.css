@@ -113,18 +113,6 @@ hr,.table th,.table td{
 .post-content{
 
 }
-.post-content table{
-    width: 100%;
-}
-.post-content table thead{
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
-    font-weight: bold;
-}
-.post-content table td{
-    border-color: #ccc;
-    border-style: solid;
-    border-width: 1px;
-    padding: 5px;
+.post-content a{
+    color: unset!important;
 }

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Data
 public class ApplicationConfig {
 
-    private String name;
-    private String keywords;
-    private String description;
-    private String webHost;
+    private String name; // 网站的名字
+    private String keywords; // 网站的关键字
+    private String description; // 网站的描述
+    private String webHost; // 网站的域名
 
 }

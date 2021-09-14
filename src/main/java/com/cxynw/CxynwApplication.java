@@ -14,17 +14,21 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Arrays;
 
+@Slf4j
 @EnableCaching //开启缓存
 @EnableAsync //开启异步方法
 @SpringBootApplication //Spring boot启动类
 @EnableJpaRepositories //启动JPA仓库
-@Slf4j
 public class CxynwApplication {
 
     @Bean("app")
     @ConfigurationProperties(prefix = "application")
     public ApplicationConfig getApplicationConfig(){
-        return new ApplicationConfig();
+        ApplicationConfig applicationConfig = new ApplicationConfig();
+        if(log.isInfoEnabled()){
+            log.info("application config: [{}]", applicationConfig);
+        }
+        return applicationConfig;
     }
 
     public static void main(String[] args) {

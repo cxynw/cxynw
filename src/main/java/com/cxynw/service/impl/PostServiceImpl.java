@@ -51,6 +51,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public BaseSuccessResponse<Object> create(PostParam postParam) {
+        log.debug("create post: [{}]",postParam);
 
         Post post = postParam.convertTo();
 
