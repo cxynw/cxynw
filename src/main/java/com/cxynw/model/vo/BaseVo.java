@@ -6,5 +6,7 @@ import lombok.Data;
 public class BaseVo {
 
     private String message;
+    private String errCode;
+    private String errMsg;
 
 }

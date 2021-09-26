@@ -25,4 +25,5 @@ public class PostItemPageVo extends BasePageVo<PostItemVo>{
         return postList.stream().map((item)-> new PostItemVo(item)).collect(Collectors.toList());
     }
 
+
 }
