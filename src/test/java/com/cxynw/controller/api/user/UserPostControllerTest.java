@@ -23,7 +23,10 @@ class UserPostControllerTest {
     MockMvc mockMvc;
 
     @Test
-    void posts() throws Exception {
+    void testPosts() throws Exception {
+        mockMvc.perform(get("/user/posts")).andExpect(ResultMatcher.matchAll(
+                status().isOk()
+        ));
         mockMvc.perform(get("/user/posts").param("page","1")).andExpect(ResultMatcher.matchAll(
                 status().isOk()
         ));
@@ -31,5 +34,4 @@ class UserPostControllerTest {
                 status().isOk()
         ));
     }
-
 }
