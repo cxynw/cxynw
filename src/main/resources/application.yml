@@ -25,6 +25,6 @@ logging:
 
 application:
   name: 程序员暖窝
-  keywords: 程序员暖窝,程序员,暖窝
-  description: 程序员暖窝是一个专门给程序员用的网站
+  keywords: 编程,编码,测试,软件开发,程序员暖窝
+  description: 程序员暖窝是一个专门给程序员用的网站，欢迎各位程序员的加入
   webHost: www.cxynw.com

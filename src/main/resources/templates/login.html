@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="keywords" th:content="|${@app.name}登录页,${@app.name},登录页|">
+    <meta name="description" content="|${@app.name}的登录页面|">
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="|用户登录 _${@app.name}|">用户登录 _程序员暖窝</title>
 
     <script src="https://cdn.jsdelivr.net/npm/spark-md5@3.0.1/spark-md5.min.js" integrity="sha256-2A6EyCDMVYegujyKIGUgmeo/p/xDlE6BLlbUScHZ8ck=" crossorigin="anonymous"></script>

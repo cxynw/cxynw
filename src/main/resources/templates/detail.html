@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="ch"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  <meta name="keywords" th:content="${post.title}">
+  <meta name="description" th:content="${post.content}">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="|${post.title} _${@app.name}|">我的第一篇文字 _程序员暖窝</title>
 
   <style type="text/css">
