@@ -125,7 +125,12 @@ public class BaseViewController {
 
         List<Post> aboutPosts = postService.page(PageRequest.of(0,12, Sort.Direction.ASC,"createTime")).getContent();
 
-        model.addAttribute("description", Jsoup.clean(post.getContent(), Whitelist.none()));
+        String clean = Jsoup.clean(post.getContent(), Whitelist.none());
+        if(clean.length() > 128){
+            clean = clean.substring(0,128);
+        }
+
+        model.addAttribute("description", clean);
         model.addAttribute("post",post);
         model.addAttribute("attachments",attachmentVOS);
         model.addAttribute("aboutPosts",aboutPosts);
