@@ -1,8 +1,8 @@
-#drop database if exists blog;
+#drop database if exists cxynw;
 
-#create database blog;
+#create database cxynw;
 
-use blog;
+use cxynw;
 # spring security 自带的记住我需要的表
 drop table if exists persistent_logins;
 create table persistent_logins
@@ -41,7 +41,7 @@ values (1,2);
 
 
 #默认的分组
-use blog;
+use cxynw;
 insert into
 post_group (can_edit,create_time,is_deleted,update_time,group_name)
 values (1,now(),false,now(),'默认');

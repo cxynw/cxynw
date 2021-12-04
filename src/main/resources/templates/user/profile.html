@@ -137,29 +137,29 @@
             <table class="table mt-3 rounded">
                 <tbody :key="post.id" v-for="post in postList.content">
                 <tr>
-                    <th rowspan="2"
+                    <td rowspan="2"
                         scope="row"
                         style="word-break: keep-all"
-                        v-text="post.type"></th>
-                    <td colspan="2">
+                        v-text="post.type"></td>
+                    <td class="w-100">
                         <a v-text="post.title" :href="'/detail/'+post.id+'.html'" class="text-reset"></a>
                     </td>
-                </tr>
-                <tr>
                     <td>
-                        <a :href="'/editor/edit/'+ post.id + '.html'"
-                           target="_blank" class="btn small-font btn-primary btn-sm">编辑</a>
-                    </td>
-                    <td>
-                        <a href="javascript: void(0)"
-                           @click="deleteById(post.id)"
-                           class="btn small-font btn-primary btn-sm">删除</a>
+                        <div class="btn-group">
+                            <a :href="'/editor/edit/'+ post.id + '.html'"
+                               style="word-break: keep-all"
+                               target="_blank" class="btn small-font btn-primary btn-sm">编辑</a>
+                            <a href="javascript: void(0)"
+                               style="word-break: keep-all"
+                               @click="deleteById(post.id)"
+                               class="btn small-font btn-primary btn-sm">删除</a>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <hr v-if="postList.hasPrevious & postList.hasNext">
-            <div class="mt-1 mb-3" v-if="postList.hasPrevious & postList.hasNext">
+            <hr v-if="postList.hasNext || postList.hasPrevious">
+            <div class="mt-1 mb-3" v-if="postList.hasNext || postList.hasPrevious">
                 <button v-if="postList.hasPrevious" class="btn btn-outline-secondary" @click="page(postList.previousPage)">上一页</button>
                 <button v-if="postList.hasNext" class="btn btn-outline-secondary" @click="page(postList.nextPage)">下一页</button>
             </div>
